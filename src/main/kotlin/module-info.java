@@ -5,6 +5,7 @@ module com.hakob.flashcards {
 
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
+    requires google.cloud.translate;
 
     opens com.hakob.flashcards to javafx.fxml;
     exports com.hakob.flashcards;

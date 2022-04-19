@@ -1,5 +1,7 @@
 package com.hakob.flashcards
 
+import com.google.cloud.translate.Translate
+import com.google.cloud.translate.TranslateOptions
 import javafx.application.Application
 import javafx.scene.Scene
 import javafx.scene.control.Hyperlink
@@ -7,15 +9,13 @@ import javafx.scene.text.TextFlow
 import javafx.stage.Stage
 import java.io.File
 
-
 class HelloApplication : Application() {
-    var text = "Setting style in java code, is heavy on. the application"
+    var text = "Setting style in java code, is heavy on. te application"
     var listOfWords = text.split(" ", "?<=,", "?<=.")
+    val translate: Translate = TranslateOptions.getDefaultInstance().toBuilder().setTargetLanguage("ru").build().service
+
 
     override fun start(stage: Stage) {
-
-
-
         println(listOfWords)
 
         val hyperlinkListText = listOfWords.map { it -> Hyperlink(it) }.toList()
@@ -45,7 +45,8 @@ class HelloApplication : Application() {
                     val sentence = listOfWordsOfSentence.joinToString(separator = " ")
                     println(sentence)
 
-                    addWordToTxtFile(wordOfTarget, sentence)
+                    val translation = hke(wordOfTarget)
+                    addWordToTxtFile(wordOfTarget, translation, sentence)
                 }
             }
         }
@@ -140,9 +141,32 @@ class HelloApplication : Application() {
     }
 
 
-    fun addWordToTxtFile(word: String, cardback: String) {
+    fun addWordToTxtFile(word: String, translation: String, cardback: String) {
         println("Writing to file")
-        File("ankiFile.txt").appendText("\n$word \t $cardback")
+        val readyWord = if (isLetters(word)) {
+            word
+        } else {
+            //if contains , . ! ? etc.
+            word.substring(0, word.length-1)
+        }
+
+        File("ankiFile.txt").appendText("\n$readyWord; $translation <br></br> $cardback")
+    }
+
+    fun hke(word: String): String {
+//        val translate: Translate = TranslateOptions.getDefaultInstance().getService()
+
+        val translation = translate.translate(word)
+        val translation2 = translate.translate("this is a test")
+        System.out.printf("Translated Text:\n\t%s\n", translation.translatedText)
+        System.out.printf("Translated Text:\n\t%s\n", translation2.translatedText)
+
+        return translation.translatedText
+    }
+
+
+    fun isLetters(string: String): Boolean {
+        return string.all { it.isLetter() }
     }
 }
 
