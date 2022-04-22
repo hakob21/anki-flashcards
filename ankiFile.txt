@@ -4,3 +4,4 @@ Setting; Параметр <br></br> Setting style in java code, is heavy on.
 heavy; тяжелый <br></br> Setting style in java code, is heavy on.
 employ; нанимать <br></br> averages can be constructed in several different ways and employ different numbers of days for the averaging interval.
 The
+average; в среднем <br></br> The moving average (MA) is a simple technical analysis tool that smooths out price data by creating a constantly updated average price.
