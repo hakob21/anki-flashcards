@@ -25,11 +25,6 @@ import javax.annotation.PostConstruct
 class HelloApplication : Application() {
     lateinit var applicationContext: ConfigurableApplicationContext
 
-    var text = "The moving average (MA) is a simple technical analysis tool that smooths out price data by creating a constantly updated average price. The average is taken over a specific period of time, like 10 days, 20 minutes, 30 weeks, or any time period the trader chooses. There are advantages to using a moving average in your trading, as well as options on what type of moving average to use." +
-            "Moving average strategies are also popular and can be tailored to any time frame, suiting both long-term investors and short-term traders."
-    var listOfWords = text.split(" ", "?<=,", "?<=.")
-    val translate: Translate = TranslateOptions.getDefaultInstance().toBuilder().setTargetLanguage("ru").build().service
-
     override fun init() {
         applicationContext = SpringApplicationBuilder(SpringApp::class.java).run()
         super.init()

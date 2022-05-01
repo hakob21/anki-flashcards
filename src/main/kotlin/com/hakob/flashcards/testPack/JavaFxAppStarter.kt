@@ -30,7 +30,6 @@ class JavaFxAppStarter {
 
         // create a scene
         sceneUtils.createScene(textFlow, stage)
-
     }
 
     private fun createTextFlow(
@@ -74,7 +73,7 @@ class JavaFxAppStarter {
         File("ankiFile.txt").appendText("\n$readyWord; $translation <br></br> $cardback")
     }
 
-    fun isLetters(string: String): Boolean {
+    private fun isLetters(string: String): Boolean {
         return string.all { it.isLetter() }
     }
 }
