@@ -17,8 +17,9 @@ import java.io.File
 @Component
 class StageInitializer : ApplicationListener<StageReadyEvent> {
 
-    var text = "The moving average (MA) is a simple technical analysis tool that smooths out price data by creating a constantly updated average price. The average is taken over a specific period of time, like 10 days, 20 minutes, 30 weeks, or any time period the trader chooses. There are advantages to using a moving average in your trading, as well as options on what type of moving average to use." +
-            "Moving average strategies are also popular and can be tailored to any time frame, suiting both long-term investors and short-term traders."
+    var text =
+        "The moving average (MA) is a simple technical analysis tool that smooths out price data by creating a constantly updated average price. The average is taken over a specific period of time, like 10 days, 20 minutes, 30 weeks, or any time period the trader chooses. There are advantages to using a moving average in your trading, as well as options on what type of moving average to use." +
+                "Moving average strategies are also popular and can be tailored to any time frame, suiting both long-term investors and short-term traders."
     var listOfWords = text.split(" ", "?<=,", "?<=.")
     val translate: Translate = TranslateOptions.getDefaultInstance().toBuilder().setTargetLanguage("ru").build().service
 
@@ -33,42 +34,40 @@ class StageInitializer : ApplicationListener<StageReadyEvent> {
         val stage: Stage? = event.getStage()
 
 
-            println(listOfWords)
+        println(listOfWords)
 
-            val hyperlinkListText = listOfWords.map { it -> Hyperlink(it) }.toList()
+        val hyperlinkListText = listOfWords.map { it -> Hyperlink(it) }.toList()
 
 
-            // set title for the stage
-            // set title for the stage
         if (stage != null) {
             stage.title = "TextFlow"
         }
 
-            // create TextFlow
+        // create TextFlow
 
-            // create TextFlow
-            val textFlow = TextFlow(
-                *hyperlinkListText.toTypedArray()
-            )
+        // create TextFlow
+        val textFlow = TextFlow(
+            *hyperlinkListText.toTypedArray()
+        )
 
 
-            textFlow.children.map {
-                if (it is Hyperlink) {
-                    it.setOnAction {
-                        val h: Hyperlink = it.target as Hyperlink
-                        val wordOfTarget = h.text
+        textFlow.children.map {
+            if (it is Hyperlink) {
+                it.setOnAction {
+                    val h: Hyperlink = it.target as Hyperlink
+                    val wordOfTarget = h.text
 
-                        val indexOfTarget = textFlow.children.indexOf(h)
-                        println("Clicked $h.text which has index $indexOfTarget")
-                        val listOfWordsOfSentence = getWordListOfSentenceWithWord(indexOfTarget)
-                        val sentence = listOfWordsOfSentence.joinToString(separator = " ")
-                        println(sentence)
+                    val indexOfTarget = textFlow.children.indexOf(h)
+                    println("Clicked $h.text which has index $indexOfTarget")
+                    val listOfWordsOfSentence = getWordListOfSentenceWithWord(indexOfTarget)
+                    val sentence = listOfWordsOfSentence.joinToString(separator = " ")
+                    println(sentence)
 
-                        val translation = hke(wordOfTarget)
-                        addWordToTxtFile(wordOfTarget, translation, sentence)
-                    }
+                    val translation = hke(wordOfTarget)
+                    addWordToTxtFile(wordOfTarget, translation, sentence)
                 }
             }
+        }
 
 //        val textFlow = TextFlow(
 //            Text("Don't have an account? "), Hyperlink("Click here")
@@ -103,24 +102,24 @@ class StageInitializer : ApplicationListener<StageReadyEvent> {
 //        textFlow.children.add(text_2)
 //        textFlow.children.add(Text("sadf"))
 
-            //test
+        //test
 
 //        val file = javaClass.getResource("stylesheet.css").toExternalForm()
-            //start
+        //start
 //        val resource = resourceLoader.getResource("classpath:stylesheet.css")
 //        val input = resource.inputStream
 //        val fil = resource.file
-            //end
-            // create a scene
-            val scene = Scene(textFlow, 400.0, 300.0)
-            scene.stylesheets.add(javaClass.getResource("/com/hakob/flashcards/stylesheet.css").toExternalForm())
+        //end
+        // create a scene
+        val scene = Scene(textFlow, 400.0, 300.0)
+        scene.stylesheets.add(javaClass.getResource("/com/hakob/flashcards/stylesheet.css").toExternalForm())
 //        javaClass.getResource("src/main/resources/file")
 //        scene.stylesheets.add(javaClass.getResource("stylesheet.css").toExternalForm())
 //        scene.stylesheets.add("/stylesheet.css")
 
-            // set the scene
+        // set the scene
 
-            // set the scene
+        // set the scene
         if (stage != null) {
             stage.scene = scene
         }
@@ -129,7 +128,6 @@ class StageInitializer : ApplicationListener<StageReadyEvent> {
             stage.show()
         }
     }
-
 
 
 //    fun getSentenceWithWord(indexOfWord: Int) {
@@ -143,18 +141,18 @@ class StageInitializer : ApplicationListener<StageReadyEvent> {
         var startIndex: Int = 0;
 
         for (i in indexOfWord until listOfWords.size) {
-            if (listOfWords.get(i).contains(".") || i+1 == listOfWords.size) {
+            if (listOfWords.get(i).contains(".") || i + 1 == listOfWords.size) {
                 endIndex = i;
                 break
             }
         }
 
         for (i in indexOfWord downTo 0) {
-            if (i==indexOfWord && listOfWords.get(i).contains(".")) {
+            if (i == indexOfWord && listOfWords.get(i).contains(".")) {
                 continue
             }
             if (listOfWords.get(i).contains(".")) {
-                startIndex = i+1;
+                startIndex = i + 1;
                 break
             }
             if (i == 0) {
@@ -180,7 +178,7 @@ class StageInitializer : ApplicationListener<StageReadyEvent> {
             word
         } else {
             //if contains , . ! ? etc.
-            word.substring(0, word.length-1)
+            word.substring(0, word.length - 1)
         }
 
         File("ankiFile.txt").appendText("\n$readyWord; $translation <br></br> $cardback")
