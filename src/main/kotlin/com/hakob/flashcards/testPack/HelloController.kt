@@ -1,4 +1,4 @@
-package com.hakob.flashcards
+package com.hakob.flashcards.testPack
 
 import javafx.fxml.FXML
 import javafx.scene.control.Label
@@ -11,8 +11,6 @@ class HelloController {
 
     @FXML
     private lateinit var text: TextFlow
-
-
 
     @FXML
     private fun onHelloButtonClick() {

@@ -1,56 +1,74 @@
-package com.hakob.flashcards
+package com.hakob.flashcards.testPack
 
 import com.google.cloud.translate.Translate
 import com.google.cloud.translate.TranslateOptions
-import javafx.application.Application
+import com.hakob.flashcards.testPack.HelloApplication.StageReadyEvent
 import javafx.scene.Scene
 import javafx.scene.control.Hyperlink
 import javafx.scene.text.TextFlow
 import javafx.stage.Stage
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationListener
+import org.springframework.core.io.ResourceLoader
+import org.springframework.stereotype.Component
 import java.io.File
 
-class HelloApplication : Application() {
+
+@Component
+class StageInitializer : ApplicationListener<StageReadyEvent> {
+
     var text = "The moving average (MA) is a simple technical analysis tool that smooths out price data by creating a constantly updated average price. The average is taken over a specific period of time, like 10 days, 20 minutes, 30 weeks, or any time period the trader chooses. There are advantages to using a moving average in your trading, as well as options on what type of moving average to use." +
             "Moving average strategies are also popular and can be tailored to any time frame, suiting both long-term investors and short-term traders."
     var listOfWords = text.split(" ", "?<=,", "?<=.")
     val translate: Translate = TranslateOptions.getDefaultInstance().toBuilder().setTargetLanguage("ru").build().service
 
 
-    override fun start(stage: Stage) {
-        println(listOfWords)
+    @Autowired
+    lateinit var beanTest: BeanTest
 
-        val hyperlinkListText = listOfWords.map { it -> Hyperlink(it) }.toList()
+    @Autowired
+    lateinit var resourceLoader: ResourceLoader
 
-
-        // set title for the stage
-        // set title for the stage
-        stage.title = "TextFlow"
-
-        // create TextFlow
-
-        // create TextFlow
-        val textFlow = TextFlow(
-            *hyperlinkListText.toTypedArray()
-        )
+    override fun onApplicationEvent(event: StageReadyEvent) {
+        val stage: Stage? = event.getStage()
 
 
-        textFlow.children.map {
-            if (it is Hyperlink) {
-                it.setOnAction {
-                    val h: Hyperlink = it.target as Hyperlink
-                    val wordOfTarget = h.text
+            println(listOfWords)
 
-                    val indexOfTarget = textFlow.children.indexOf(h)
-                    println("Clicked $h.text which has index $indexOfTarget")
-                    val listOfWordsOfSentence = getWordListOfSentenceWithWord(indexOfTarget)
-                    val sentence = listOfWordsOfSentence.joinToString(separator = " ")
-                    println(sentence)
+            val hyperlinkListText = listOfWords.map { it -> Hyperlink(it) }.toList()
 
-                    val translation = hke(wordOfTarget)
-                    addWordToTxtFile(wordOfTarget, translation, sentence)
+
+            // set title for the stage
+            // set title for the stage
+        if (stage != null) {
+            stage.title = "TextFlow"
+        }
+
+            // create TextFlow
+
+            // create TextFlow
+            val textFlow = TextFlow(
+                *hyperlinkListText.toTypedArray()
+            )
+
+
+            textFlow.children.map {
+                if (it is Hyperlink) {
+                    it.setOnAction {
+                        val h: Hyperlink = it.target as Hyperlink
+                        val wordOfTarget = h.text
+
+                        val indexOfTarget = textFlow.children.indexOf(h)
+                        println("Clicked $h.text which has index $indexOfTarget")
+                        val listOfWordsOfSentence = getWordListOfSentenceWithWord(indexOfTarget)
+                        val sentence = listOfWordsOfSentence.joinToString(separator = " ")
+                        println(sentence)
+
+                        val translation = hke(wordOfTarget)
+                        addWordToTxtFile(wordOfTarget, translation, sentence)
+                    }
                 }
             }
-        }
 
 //        val textFlow = TextFlow(
 //            Text("Don't have an account? "), Hyperlink("Click here")
@@ -85,20 +103,34 @@ class HelloApplication : Application() {
 //        textFlow.children.add(text_2)
 //        textFlow.children.add(Text("sadf"))
 
-        // create a scene
+            //test
 
-        // create a scene
-        val scene = Scene(textFlow, 400.0, 300.0)
-        scene.stylesheets.add(javaClass.getResource("stylesheet.css").toExternalForm())
+//        val file = javaClass.getResource("stylesheet.css").toExternalForm()
+            //start
+//        val resource = resourceLoader.getResource("classpath:stylesheet.css")
+//        val input = resource.inputStream
+//        val fil = resource.file
+            //end
+            // create a scene
+            val scene = Scene(textFlow, 400.0, 300.0)
+            scene.stylesheets.add(javaClass.getResource("/com/hakob/flashcards/stylesheet.css").toExternalForm())
+//        javaClass.getResource("src/main/resources/file")
+//        scene.stylesheets.add(javaClass.getResource("stylesheet.css").toExternalForm())
 //        scene.stylesheets.add("/stylesheet.css")
 
-        // set the scene
+            // set the scene
 
-        // set the scene
-        stage.scene = scene
+            // set the scene
+        if (stage != null) {
+            stage.scene = scene
+        }
 
-        stage.show()
+        if (stage != null) {
+            stage.show()
+        }
     }
+
+
 
 //    fun getSentenceWithWord(indexOfWord: Int) {
 //        listOfWords.reversed().takeWhile { it.contains(".") }
@@ -170,8 +202,3 @@ class HelloApplication : Application() {
         return string.all { it.isLetter() }
     }
 }
-
-fun main() {
-    Application.launch(HelloApplication::class.java)
-}
-
