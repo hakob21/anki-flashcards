@@ -9,47 +9,35 @@ import javafx.scene.text.TextFlow
 import javafx.stage.Stage
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationListener
-import org.springframework.core.io.ResourceLoader
 import org.springframework.stereotype.Component
 import java.io.File
 
 
 @Component
 class StageInitializer : ApplicationListener<StageReadyEvent> {
-
     var text =
         "The moving average (MA) is a simple technical analysis tool that smooths out price data by creating a constantly updated average price. The average is taken over a specific period of time, like 10 days, 20 minutes, 30 weeks, or any time period the trader chooses. There are advantages to using a moving average in your trading, as well as options on what type of moving average to use." +
                 "Moving average strategies are also popular and can be tailored to any time frame, suiting both long-term investors and short-term traders."
     var listOfWords = text.split(" ", "?<=,", "?<=.")
-    val translate: Translate = TranslateOptions.getDefaultInstance().toBuilder().setTargetLanguage("ru").build().service
-
 
     @Autowired
-    lateinit var beanTest: BeanTest
-
-    @Autowired
-    lateinit var resourceLoader: ResourceLoader
+    lateinit var translateUtils: TranslateUtils
 
     override fun onApplicationEvent(event: StageReadyEvent) {
         val stage: Stage? = event.getStage()
 
-
         println(listOfWords)
 
         val hyperlinkListText = listOfWords.map { it -> Hyperlink(it) }.toList()
-
 
         if (stage != null) {
             stage.title = "TextFlow"
         }
 
         // create TextFlow
-
-        // create TextFlow
         val textFlow = TextFlow(
             *hyperlinkListText.toTypedArray()
         )
-
 
         textFlow.children.map {
             if (it is Hyperlink) {
@@ -63,63 +51,16 @@ class StageInitializer : ApplicationListener<StageReadyEvent> {
                     val sentence = listOfWordsOfSentence.joinToString(separator = " ")
                     println(sentence)
 
-                    val translation = hke(wordOfTarget)
+                    val translation = translateUtils.getTranslatedWord(wordOfTarget)
                     addWordToTxtFile(wordOfTarget, translation, sentence)
                 }
             }
         }
 
-//        val textFlow = TextFlow(
-//            Text("Don't have an account? "), Hyperlink("Click here")
-//        )
-
-
-//        // create text
-//
-//        // create text
-//        val text_1 = Text("GeeksforGeeks\n")
-//
-//        // set the text color
-//
-//        // set the text color
-//        text_1.setFill(Color.RED)
-//
-//        // set font of the text
-//
-//        // set font of the text
-//        text_1.setFont(Font.font("Verdana", 25.0))
-//
-//        // create text
-//
-//        // create text
-//        val text_2 = Text("The computer science portal for geeks")
-//
-//        text_2.setFill(Color.BLUE)
-//
-//        // add text to textflow
-//
-//        textFlow.children.add(text_1)
-//        textFlow.children.add(text_2)
-//        textFlow.children.add(Text("sadf"))
-
-        //test
-
-//        val file = javaClass.getResource("stylesheet.css").toExternalForm()
-        //start
-//        val resource = resourceLoader.getResource("classpath:stylesheet.css")
-//        val input = resource.inputStream
-//        val fil = resource.file
-        //end
-        // create a scene
+       // create a scene
         val scene = Scene(textFlow, 400.0, 300.0)
         scene.stylesheets.add(javaClass.getResource("/com/hakob/flashcards/stylesheet.css").toExternalForm())
-//        javaClass.getResource("src/main/resources/file")
-//        scene.stylesheets.add(javaClass.getResource("stylesheet.css").toExternalForm())
-//        scene.stylesheets.add("/stylesheet.css")
 
-        // set the scene
-
-        // set the scene
         if (stage != null) {
             stage.scene = scene
         }
@@ -128,13 +69,6 @@ class StageInitializer : ApplicationListener<StageReadyEvent> {
             stage.show()
         }
     }
-
-
-//    fun getSentenceWithWord(indexOfWord: Int) {
-//        listOfWords.reversed().takeWhile { it.contains(".") }
-//        listOfWords.takeWhileInclusive { it.contains(".") }
-//
-//    }
 
     fun getWordListOfSentenceWithWord(indexOfWord: Int): List<String> {
         var endIndex: Int = 0;
@@ -184,16 +118,6 @@ class StageInitializer : ApplicationListener<StageReadyEvent> {
         File("ankiFile.txt").appendText("\n$readyWord; $translation <br></br> $cardback")
     }
 
-    fun hke(word: String): String {
-//        val translate: Translate = TranslateOptions.getDefaultInstance().getService()
-
-        val translation = translate.translate(word)
-        val translation2 = translate.translate("this is a test")
-        System.out.printf("Translated Text:\n\t%s\n", translation.translatedText)
-        System.out.printf("Translated Text:\n\t%s\n", translation2.translatedText)
-
-        return translation.translatedText
-    }
 
 
     fun isLetters(string: String): Boolean {

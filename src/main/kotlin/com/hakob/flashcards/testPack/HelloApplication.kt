@@ -31,15 +31,8 @@ class HelloApplication : Application() {
     val translate: Translate = TranslateOptions.getDefaultInstance().toBuilder().setTargetLanguage("ru").build().service
 
     @Autowired
-    lateinit var beanTest: BeanTest
-
-    @Autowired
     lateinit var resourceLoader: ResourceLoader
 
-    @PostConstruct
-    fun ww() {
-        println(beanTest)
-    }
     override fun init() {
         applicationContext = SpringApplicationBuilder(SpringApp::class.java).run()
 //        println(beanTest.str)
