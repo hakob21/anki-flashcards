@@ -1,12 +1,7 @@
-import com.hakob.flashcards.testPack.HelloApplication
-import com.hakob.flashcards.testPack.TranslateUtils
-import io.kotest.matchers.collections.shouldContainExactly
+import com.hakob.flashcards.utils.TranslateUtils
 import io.kotest.matchers.shouldBe
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
 
 class AppTest {
 //    val translateUtils: TranslateUtils = mockk<TranslateUtils>()

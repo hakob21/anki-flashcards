@@ -1,10 +1,11 @@
 package com.hakob.flashcards.testPack
 
+import com.hakob.flashcards.utils.SceneUtils
+import com.hakob.flashcards.utils.TranslateUtils
 import javafx.scene.control.Hyperlink
 import javafx.scene.text.TextFlow
 import javafx.stage.Stage
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
 import java.io.File
 
@@ -72,8 +73,6 @@ class JavaFxAppStarter {
 
         File("ankiFile.txt").appendText("\n$readyWord; $translation <br></br> $cardback")
     }
-
-
 
     fun isLetters(string: String): Boolean {
         return string.all { it.isLetter() }

@@ -1,4 +1,4 @@
-package com.hakob.flashcards.testPack
+package com.hakob.flashcards.utils
 
 import com.google.cloud.translate.Translate
 import com.google.cloud.translate.TranslateOptions

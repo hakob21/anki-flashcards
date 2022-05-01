@@ -1,4 +1,4 @@
-package com.hakob.flashcards.testPack
+package com.hakob.flashcards.utils
 
 import javafx.scene.Scene
 import javafx.scene.text.TextFlow
