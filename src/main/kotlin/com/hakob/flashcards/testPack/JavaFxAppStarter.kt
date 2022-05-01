@@ -57,43 +57,40 @@ class JavaFxAppStarter {
         root.alignment = Pos.CENTER
         //button
 //        showHTMLButton.setOnAction { arg0: ActionEvent? -> htmlCode.setText(htmlEditoor.htmlText) }
-        showHTMLButton.setOnAction(object : EventHandler<ActionEvent?> {
-            override fun handle(event: ActionEvent?) {
-                val secondLabel = Label("I'm a Label on new Window")
-                val secondaryLayout = StackPane()
-                secondaryLayout.children.add(secondLabel)
-                val secondScene = Scene(secondaryLayout, 230.0, 100.0)
-
-                // New window (Stage)
-                val newWindow = Stage()
-                newWindow.title = "Second Stage"
-                newWindow.scene = secondScene
-
-                // Set position of second window, related to primary window.
-                newWindow.x = stage.getX() + 200
-                newWindow.y = stage.getY() + 100
-                newWindow.show()
-            }
-        })
+        showHTMLButton.setOnAction {
+            println(htmlEditor.htmlText)
+            secondStageHandler(stage)
+//            val secondLabel = Label("I'm a Label on new Window")
+//            val secondaryLayout = StackPane()
+//            secondaryLayout.children.add(secondLabel)
+//            val secondScene = Scene(secondaryLayout, 650.0, 500.0)
+//
+//             New window (Stage)
+//            val newWindow = Stage()
+//            newWindow.title = "Second Stage"
+//            newWindow.scene = secondScene
+//
+//             Set position of second window, related to primary window.
+//            newWindow.x = stage.getX() + 200
+//            newWindow.y = stage.getY() + 100
+//            newWindow.show()
+        }
 
         root.children.addAll(htmlEditor, showHTMLButton, scrollPane)
         scene.root = root
         stage.scene = scene
         stage.show()
+    }
+    
+    fun secondStageHandler(stage: Stage) {
+        val listOfWords = text.split(" ", "?<=,", "?<=.")
+        val hyperLinkWordList = listOfWords.map { Hyperlink(it) }.toList()
 
+//         create TextFlow
+        val textFlow = createTextFlow(hyperLinkWordList, listOfWords)
 
-
-
-
-
-//        val listOfWords = text.split(" ", "?<=,", "?<=.")
-//        val hyperLinkWordList = listOfWords.map { Hyperlink(it) }.toList()
-//
-        // create TextFlow
-//        val textFlow = createTextFlow(hyperLinkWordList, listOfWords)
-
-        // create a scene
-//        sceneUtils.createScene(textFlow, stage)
+//         create a scene
+        sceneUtils.createScene(textFlow, stage)
     }
 
     private fun createTextFlow(
