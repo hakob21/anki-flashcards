@@ -1,7 +1,5 @@
 package com.hakob.flashcards.testPack
 
-import com.google.cloud.translate.Translate
-import com.google.cloud.translate.TranslateOptions
 import com.hakob.flashcards.testPack.HelloApplication.StageReadyEvent
 import javafx.scene.Scene
 import javafx.scene.control.Hyperlink
@@ -47,7 +45,8 @@ class StageInitializer : ApplicationListener<StageReadyEvent> {
 
                     val indexOfTarget = textFlow.children.indexOf(h)
                     println("Clicked $h.text which has index $indexOfTarget")
-                    val listOfWordsOfSentence = getWordListOfSentenceWithWord(indexOfTarget)
+                    val listOfWordsOfSentence = translateUtils.getWordsFromSentence(indexOfWord = indexOfTarget, listOfWordsFromText = listOfWords)
+//                    val listOfWordsOfSentence = getWordListOfSentenceWithWord(indexOfTarget)
                     val sentence = listOfWordsOfSentence.joinToString(separator = " ")
                     println(sentence)
 
@@ -70,40 +69,6 @@ class StageInitializer : ApplicationListener<StageReadyEvent> {
         }
     }
 
-    fun getWordListOfSentenceWithWord(indexOfWord: Int): List<String> {
-        var endIndex: Int = 0;
-        var startIndex: Int = 0;
-
-        for (i in indexOfWord until listOfWords.size) {
-            if (listOfWords.get(i).contains(".") || i + 1 == listOfWords.size) {
-                endIndex = i;
-                break
-            }
-        }
-
-        for (i in indexOfWord downTo 0) {
-            if (i == indexOfWord && listOfWords.get(i).contains(".")) {
-                continue
-            }
-            if (listOfWords.get(i).contains(".")) {
-                startIndex = i + 1;
-                break
-            }
-            if (i == 0) {
-                startIndex = 0
-                break
-            }
-        }
-
-        println("startIndex $startIndex")
-        println("endIndex $endIndex")
-
-        val sentence = listOfWords.slice(startIndex..endIndex)
-
-        println("Sentence: $sentence")
-
-        return sentence
-    }
 
 
     fun addWordToTxtFile(word: String, translation: String, cardback: String) {
