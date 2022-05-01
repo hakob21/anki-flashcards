@@ -35,6 +35,6 @@ class AppTest {
         val actual = translateUtils.getWordsFromSentence(indexOfWord = 5, listOfWordsFromText = listOfWordsFromText)
 
         // then
-        actual shouldContainExactly listOf("Word", "word.")
+        actual shouldBe "Word word."
     }
 }

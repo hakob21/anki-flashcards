@@ -30,12 +30,8 @@ class HelloApplication : Application() {
     var listOfWords = text.split(" ", "?<=,", "?<=.")
     val translate: Translate = TranslateOptions.getDefaultInstance().toBuilder().setTargetLanguage("ru").build().service
 
-    @Autowired
-    lateinit var resourceLoader: ResourceLoader
-
     override fun init() {
         applicationContext = SpringApplicationBuilder(SpringApp::class.java).run()
-//        println(beanTest.str)
         super.init()
     }
 
@@ -52,14 +48,6 @@ class HelloApplication : Application() {
 
     override fun start(stage: Stage) {
         applicationContext.publishEvent(StageReadyEvent(stage))
-
-
-//    fun getSentenceWithWord(indexOfWord: Int) {
-//        listOfWords.reversed().takeWhile { it.contains(".") }
-//        listOfWords.takeWhileInclusive { it.contains(".") }
-//
-//    }
-
    }
 }
 

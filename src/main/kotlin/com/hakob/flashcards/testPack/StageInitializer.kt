@@ -16,25 +16,26 @@ class StageInitializer : ApplicationListener<StageReadyEvent> {
     var text =
         "The moving average (MA) is a simple technical analysis tool that smooths out price data by creating a constantly updated average price. The average is taken over a specific period of time, like 10 days, 20 minutes, 30 weeks, or any time period the trader chooses. There are advantages to using a moving average in your trading, as well as options on what type of moving average to use." +
                 "Moving average strategies are also popular and can be tailored to any time frame, suiting both long-term investors and short-term traders."
-    var listOfWords = text.split(" ", "?<=,", "?<=.")
+
+//    @Autowired
+//    lateinit var applicationStarter: ApplicationStarter
 
     @Autowired
     lateinit var translateUtils: TranslateUtils
 
+    @Autowired
+    lateinit var sceneUtils: SceneUtils
+
     override fun onApplicationEvent(event: StageReadyEvent) {
-        val stage: Stage? = event.getStage()
+        val stage: Stage = event.getStage()
 
-        println(listOfWords)
+        val listOfWords = text.split(" ", "?<=,", "?<=.")
 
-        val hyperlinkListText = listOfWords.map { it -> Hyperlink(it) }.toList()
-
-        if (stage != null) {
-            stage.title = "TextFlow"
-        }
+        val hyperLinkWordList = listOfWords.map { it -> Hyperlink(it) }.toList()
 
         // create TextFlow
         val textFlow = TextFlow(
-            *hyperlinkListText.toTypedArray()
+            *hyperLinkWordList.toTypedArray()
         )
 
         textFlow.children.map {
@@ -45,10 +46,7 @@ class StageInitializer : ApplicationListener<StageReadyEvent> {
 
                     val indexOfTarget = textFlow.children.indexOf(h)
                     println("Clicked $h.text which has index $indexOfTarget")
-                    val listOfWordsOfSentence = translateUtils.getWordsFromSentence(indexOfWord = indexOfTarget, listOfWordsFromText = listOfWords)
-//                    val listOfWordsOfSentence = getWordListOfSentenceWithWord(indexOfTarget)
-                    val sentence = listOfWordsOfSentence.joinToString(separator = " ")
-                    println(sentence)
+                    val sentence = translateUtils.getWordsFromSentence(indexOfWord = indexOfTarget, listOfWordsFromText = listOfWords)
 
                     val translation = translateUtils.getTranslatedWord(wordOfTarget)
                     addWordToTxtFile(wordOfTarget, translation, sentence)
@@ -57,16 +55,7 @@ class StageInitializer : ApplicationListener<StageReadyEvent> {
         }
 
        // create a scene
-        val scene = Scene(textFlow, 400.0, 300.0)
-        scene.stylesheets.add(javaClass.getResource("/com/hakob/flashcards/stylesheet.css").toExternalForm())
-
-        if (stage != null) {
-            stage.scene = scene
-        }
-
-        if (stage != null) {
-            stage.show()
-        }
+        sceneUtils.createScene(textFlow, stage)
     }
 
 

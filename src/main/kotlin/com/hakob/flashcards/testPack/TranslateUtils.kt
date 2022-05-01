@@ -15,7 +15,7 @@ class TranslateUtils {
         return translation.translatedText
     }
 
-    fun getWordsFromSentence(indexOfWord: Int, listOfWordsFromText: List<String>): List<String> {
+    fun getWordsFromSentence(indexOfWord: Int, listOfWordsFromText: List<String>): String {
         var endIndex: Int = 0;
         var startIndex: Int = 0;
 
@@ -43,10 +43,9 @@ class TranslateUtils {
         println("startIndex $startIndex")
         println("endIndex $endIndex")
 
-        val sentence: List<String> = listOfWordsFromText.slice(startIndex..endIndex)
+        val listOfWords: List<String> = listOfWordsFromText.slice(startIndex..endIndex)
 
-        println("Sentence: $sentence")
-
+        val sentence = listOfWords.joinToString(separator = " ")
         return sentence
     }
 
