@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ComponentScan
 open class SpringApp
 
 fun main(args: Array<String>) {
-    Application.launch(HelloApplication::class.java)
-//    runApplication<HelloApplication>(*args) {
-//    }
+//    Application.launch(HelloApplication::class.java)
+    runApplication<SpringApp>(*args) {
+    }
 }
