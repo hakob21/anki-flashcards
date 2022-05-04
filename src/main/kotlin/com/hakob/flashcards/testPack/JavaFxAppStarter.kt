@@ -2,21 +2,21 @@ package com.hakob.flashcards.testPack
 
 import com.hakob.flashcards.utils.SceneUtils
 import com.hakob.flashcards.utils.TranslateUtils
-import com.sun.javafx.geom.Rectangle
-import javafx.event.ActionEvent
-import javafx.event.EventHandler
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.Group
-import javafx.scene.Parent
 import javafx.scene.Scene
-import javafx.scene.control.*
-import javafx.scene.layout.Pane
-import javafx.scene.layout.StackPane
+import javafx.scene.control.Button
+import javafx.scene.control.Hyperlink
+import javafx.scene.control.ScrollPane
+import javafx.scene.control.TextArea
 import javafx.scene.layout.VBox
 import javafx.scene.text.TextFlow
 import javafx.scene.web.HTMLEditor
+import javafx.scene.web.WebView
 import javafx.stage.Stage
+import org.jsoup.Jsoup
+import org.jsoup.safety.Whitelist
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.io.File
@@ -59,7 +59,7 @@ class JavaFxAppStarter {
 //        showHTMLButton.setOnAction { arg0: ActionEvent? -> htmlCode.setText(htmlEditoor.htmlText) }
         showHTMLButton.setOnAction {
             println(htmlEditor.htmlText)
-            secondStageHandler(stage)
+            secondStageHandler(stage, htmlEditor.htmlText)
 //            val secondLabel = Label("I'm a Label on new Window")
 //            val secondaryLayout = StackPane()
 //            secondaryLayout.children.add(secondLabel)
@@ -82,15 +82,81 @@ class JavaFxAppStarter {
         stage.show()
     }
     
-    fun secondStageHandler(stage: Stage) {
+    fun secondStageHandler(stage: Stage, htmlText: String) {
+        val document = Jsoup.parse(htmlText)
+        val whiteListOfTags = listOf(
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "p",
+            "time",
+            "div",
+            "ul",
+            "li",
+            "code",
+        )
+        val listOfHtmlEntities = listOf(
+            "&nbsp;",
+            "&lt;",
+            "&gt;",
+
+        )
+        val onlyTextFromHtml = Jsoup.clean(htmlText, Whitelist.none())
+        var cleanText = onlyTextFromHtml.replace("&nbsp;", "")
+        listOfHtmlEntities.forEach {
+            cleanText = cleanText.replace(it, " ")
+        }
+        println("Clean text: $cleanText")
+
+        val cleanHtmlCodeWithoutLinks = Jsoup.clean(htmlText, Whitelist().addTags(*whiteListOfTags.toTypedArray()))
+        var cleanHtmlCodeWithoutLinksWithoutEntities = cleanHtmlCodeWithoutLinks
+        listOfHtmlEntities.forEach {
+            cleanHtmlCodeWithoutLinksWithoutEntities = cleanHtmlCodeWithoutLinksWithoutEntities.replace(it, " ")
+        }
+
+        val documentClean = Jsoup.parse(cleanHtmlCodeWithoutLinksWithoutEntities)
+
+        documentClean.allElements.forEach {
+            it.appendElement("a").attr("href", "asfd")
+        }
+
+        stage.title = "HTML"
+        stage.setWidth(500.0)
+        stage.setHeight(500.0)
+        val scene = Scene(Group())
+
+        val root = VBox()
+
+        val browser = WebView()
+        val webEngine = browser.engine
+
+        val scrollPane = ScrollPane()
+        scrollPane.content = browser
+        webEngine.loadContent(cleanHtmlCodeWithoutLinksWithoutEntities)
+
+        root.children.addAll(scrollPane)
+        scene.root = root
+
+        stage.scene = scene
+        stage.show()
+
+        println("start")
+        document.body().select("p")
+        document.body().toString()
+
+
         val listOfWords = text.split(" ", "?<=,", "?<=.")
+        val newListOfWords = htmlText
         val hyperLinkWordList = listOfWords.map { Hyperlink(it) }.toList()
 
 //         create TextFlow
-        val textFlow = createTextFlow(hyperLinkWordList, listOfWords)
+//        val textFlow = createTextFlow(hyperLinkWordList, listOfWords)
 
 //         create a scene
-        sceneUtils.createScene(textFlow, stage)
+//        sceneUtils.createScene(textFlow, stage)
     }
 
     private fun createTextFlow(
