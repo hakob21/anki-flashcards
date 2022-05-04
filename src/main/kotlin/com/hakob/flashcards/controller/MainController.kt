@@ -21,8 +21,10 @@ class MainController(
     }
 
     @PostMapping
-    fun save(post: Post?, model: Model): String? {
-        model.addAttribute("post", post)
+    fun save(post: Post, model: Model): String? {
+        val richTextWithoutLinks = mainService.hke(post.content)
+        val newPost = Post("tt", richTextWithoutLinks)
+        model.addAttribute("post", newPost)
         return "saved"
     }
 }
