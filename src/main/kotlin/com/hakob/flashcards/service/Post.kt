@@ -1,6 +1,6 @@
 package com.hakob.flashcards.service
 
-class Post(
-    val title: String = "testTitle",
-    val content: String = "testContent"
+data class Post(
+    var title: String = "testTitle",
+    var content: String = "testContent"
 )
