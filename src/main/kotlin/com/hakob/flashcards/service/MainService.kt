@@ -1,12 +1,17 @@
 package com.hakob.flashcards.service
 
+import com.hakob.flashcards.utils.FileUtils
+import com.hakob.flashcards.utils.TranslateUtils
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.safety.Whitelist
 import org.springframework.stereotype.Service
 
 @Service
-class MainService {
+class MainService(
+    val translateUtils: TranslateUtils,
+    val fileUtils: FileUtils
+) {
 
     fun hke(richText: String): String {
         val document = Jsoup.parse(richText)
@@ -69,6 +74,13 @@ class MainService {
         fin = fin.replace("&gt;", ">")
         println(fin)
         return fin
+    }
+
+    fun processTranslateRequest(wordIndex: Int, word: String, listOfWords: List<String>) {
+        val translatedWord = translateUtils.getTranslatedWord(word)
+
+        val sentence = listOfWords.joinToString(separator = " ")
+        fileUtils.addWordToTxtFile(word, translatedWord, sentence)
     }
 
 }

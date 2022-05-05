@@ -1,6 +1,8 @@
 package com.hakob.flashcards.service
 
 data class TranslationRequest(
-    val textToTranslate: String
+    val indexOfWordToTranslate: Int,
+    val wordToTranslate: String,
+    val sentence: List<String>
 ) {
 }
