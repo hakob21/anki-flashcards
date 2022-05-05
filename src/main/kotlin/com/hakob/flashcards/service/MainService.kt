@@ -26,6 +26,7 @@ class MainService {
             "ul",
             "li",
             "code",
+            "img"
         )
         val listOfHtmlEntities = listOf(
             "&nbsp;",
@@ -36,17 +37,18 @@ class MainService {
         val only = Jsoup.clean(richText, Whitelist.basicWithImages())
 
 
-        val richTextWithoutLinks = Jsoup.clean(richText, Whitelist.basicWithImages().removeTags("a"))
+        val richTextWithoutLinks = Jsoup.clean(richText, Whitelist().addTags(*whiteListOfTags.toTypedArray()).removeTags("a"))
         val finalDoc = Jsoup.parse(richTextWithoutLinks)
         val paragraps = finalDoc.select("p")
 
+        var i = 0
         paragraps.forEach {
             println(it.`val`())
             var sentence = ""
             for (word in it.text().split(" ")) {
                 val trimmed =
                     """
-                        <a href="http://google.com">$word</a>
+                        <a name="word" href="#" onClick="return false;" id=${i++}>$word</a>
                     """.trimIndent().plus(" ")
                 sentence += trimmed
             }
@@ -56,9 +58,16 @@ class MainService {
         }
 
 //        val richTextWithoutLinks = Jsoup.clean(richText, Whitelist())
+        val images = finalDoc.select("img")
+        images.forEach {
+            it.attr("width", "500")
+            it.attr("height", "500")
+        }
+
         var fin = finalDoc.toString()
         fin = fin.replace("&lt;", "<")
         fin = fin.replace("&gt;", ">")
+        println(fin)
         return fin
     }
 
