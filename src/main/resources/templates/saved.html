@@ -43,63 +43,40 @@
         <div class="col-sm-12 mt-5">
             <h1 th:text="${post.title}">Title</h1>
             <div th:utext="${post.content}">Content</div>
-            <a href="javascript:f()">Click</a>
             <a th:href="@{/}" class="btn btn-primary">Go back</a>
         </div>
     </div>
 </div>
 
 <script>
-    // var tag = document.querySelectorAll("a")
-    var tag = document.getElementsByName('word')
-    var max = tag.length
+    const tag = document.getElementsByName('word');
+    const max = tag.length;
     console.log(tag.length)
     tag.forEach(
         item => {
             item.addEventListener('click', event => {
                     let i;
-                    console.log("inside")
                     var itemId = parseInt(item.id)
-                    console.log('classname' + itemId)
-                    console.log('questySelect' + document.getElementById(itemId).textContent)
-                    console.log('questySelect' + document.getElementById(itemId).id)
                     var arr = []
 
-                    console.log('itemid type before ' + typeof itemId)
-
                     for (i = itemId; i > itemId - 6 && i > 0; i--) {
-                        console.log('sadfa')
-                        console.log(i)
-                        console.log(document.getElementById(i).textContent)
-                        // console.log(document.getElementById(i))
                         arr.unshift(document.getElementById(i).textContent)
                     }
 
-                    console.log('itemid before goind up ' + itemId)
-                    console.log('itemid type after ' + typeof itemId)
-
                     for (i = itemId; i < itemId + 6; i++) {
-                        console.log('itemid inside second loop  ' + itemId)
-                        console.log('Itemdidplys six' + ' ' + itemId + 6)
-                        console.log('eeee')
-                        console.log(i)
-                        console.log(document.getElementById(i).textContent)
-                        // console.log(document.getElementById(i))
-
                         arr.push(document.getElementById(i).textContent)
                     }
                     var xhr = new XMLHttpRequest();
                     xhr.open("POST", "http://localhost:8080/translate", true);
                     xhr.setRequestHeader('Content-Type', 'application/json');
                     xhr.send(JSON.stringify({
-                        indexOfWordToTranslate: arr.length/2,
-                        wordToTranslate: arr[arr.length/2],
+                        indexOfWordToTranslate: arr.length / 2,
+                        wordToTranslate: arr[arr.length / 2],
                         sentence: arr
                     }));
                     console.log("Final array " + arr)
                 }
             )
-
         }
     )
 </script>

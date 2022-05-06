@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service
 @Service
 class MainService(
     val translateUtils: TranslateUtils,
-    val fileUtils: FileUtils
+    val fileUtils: FileUtils,
+    val wordService: WordService
+
 ) {
 
     fun hke(richText: String): String {
@@ -46,6 +48,9 @@ class MainService(
         val finalDoc = Jsoup.parse(richTextWithoutLinks)
         val paragraps = finalDoc.select("p")
 
+        // var to pass to wordservice
+        val map = mutableMapOf<Int, String>()
+
         var i = 0
         paragraps.forEach {
             println(it.`val`())
@@ -53,15 +58,17 @@ class MainService(
             for (word in it.text().split(" ")) {
                 val trimmed =
                     """
-                        <a name="word" href="#" onClick="return false;" id=${i++}>$word</a>
+                        <a name="word" href="#" onClick="return false;" id=${i}>$word</a>
                     """.trimIndent().plus(" ")
                 sentence += trimmed
+                map[i++] = word
             }
             println("Sentence: $sentence")
 //            val first = it.childNodes().first().replaceWith(Element("a").attr("href", "https://google.com"))
             it.text(sentence)
         }
 
+        wordService.map = map
 //        val richTextWithoutLinks = Jsoup.clean(richText, Whitelist())
         val images = finalDoc.select("img")
         images.forEach {

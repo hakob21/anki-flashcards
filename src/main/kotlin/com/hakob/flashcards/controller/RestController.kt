@@ -12,8 +12,14 @@ class RestController(
     val mainService: MainService
 ) {
     @PostMapping(consumes = arrayOf("application/json"), produces = arrayOf("application/json"))
-    fun toTranslate(@RequestBody translationRequest: TranslationRequest) {
+    fun toTranslate(@RequestBody translationRequest: TranslationRequest): TranslationRequest {
         println("TranslationRequest  $translationRequest")
         mainService.processTranslateRequest(translationRequest.indexOfWordToTranslate, translationRequest.wordToTranslate, translationRequest.sentence)
+        return translationRequest
+    }
+
+    @PostMapping
+    fun runProcess(@RequestBody wordId: Int) {
+
     }
 }
