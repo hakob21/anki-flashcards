@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class WordService(
-//    var text: String = "version control logs, should. show that test code is checked. in each time product code",
     var map: MutableMap<Int, String> = mutableMapOf()
 ) {
     fun getTargetSentence(wordId: Int): String {
@@ -18,9 +17,13 @@ class WordService(
         while (backwardIsNotOver || forwardIsNotOver) {
             if (forwardIterator.hasNext() && forwardIsNotOver) {
                 forwardIsNotOver = !forwardIterator.sentenceIsOverOnNextForwardWord<String>()
+                forwardIterator.next()
             }
             if (backwardsIterator.hasPrevious() && backwardIsNotOver) {
                 backwardIsNotOver = !backwardsIterator.sentenceIsOverOnNextPreviousWord<String>()
+                if (backwardIsNotOver) {
+                    backwardsIterator.previous()
+                }
             }
         }
 
@@ -28,15 +31,20 @@ class WordService(
     }
 }
 
-private fun <T> ListIterator<String>.sentenceIsOverOnNextForwardWord(): Boolean {
+fun <T> ListIterator<String>.sentenceIsOverOnNextForwardWord(): Boolean {
+    println("Next: ${this.next()}")
+    this.previous()
+
     val terminatorList = listOf(".", "!", "?")
     if (this.next().containsOneOfCharactersFromList(terminatorList)) {
+        this.previous()
         return true
     }
+    this.previous()
     return false
 }
 
-private fun String.containsOneOfCharactersFromList(terminatorList: List<String>): Boolean {
+fun String.containsOneOfCharactersFromList(terminatorList: List<String>): Boolean {
     terminatorList.forEach {
         if (this.contains(it)) {
             return true
@@ -45,11 +53,14 @@ private fun String.containsOneOfCharactersFromList(terminatorList: List<String>)
     return false
 }
 
-private fun <T> ListIterator<String>.sentenceIsOverOnNextPreviousWord(): Boolean {
+fun <T> ListIterator<String>.sentenceIsOverOnNextPreviousWord(): Boolean {
+    println("Previous: ${this.previous()}")
+    this.next()
     val terminatorList = listOf(".", "!", "?")
     if (this.previous().containsOneOfCharactersFromList(terminatorList)) {
         this.next()
         return true
     }
+    this.next()
     return false
 }
