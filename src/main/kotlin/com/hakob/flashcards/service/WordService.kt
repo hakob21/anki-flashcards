@@ -32,11 +32,8 @@ class WordService(
 }
 
 fun <T> ListIterator<String>.sentenceIsOverOnNextForwardWord(): Boolean {
-    println("Next: ${this.next()}")
-    this.previous()
-
     val terminatorList = listOf(".", "!", "?")
-    if (this.next().containsOneOfCharactersFromList(terminatorList)) {
+    if (this.next().containsOneOfCharactersFromList(terminatorList) ) {
         this.previous()
         return true
     }
@@ -54,8 +51,6 @@ fun String.containsOneOfCharactersFromList(terminatorList: List<String>): Boolea
 }
 
 fun <T> ListIterator<String>.sentenceIsOverOnNextPreviousWord(): Boolean {
-    println("Previous: ${this.previous()}")
-    this.next()
     val terminatorList = listOf(".", "!", "?")
     if (this.previous().containsOneOfCharactersFromList(terminatorList)) {
         this.next()
