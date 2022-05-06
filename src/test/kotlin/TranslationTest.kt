@@ -1,8 +1,12 @@
 import com.hakob.flashcards.service.WordService
+import com.hakob.flashcards.service.movePointerToNextIfSentenceIsNotOver
+import com.hakob.flashcards.service.movePointerToPreviousIfSentenceIsNotOver
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
 import io.kotest.matchers.shouldBe
+import io.mockk.spyk
 import org.junit.jupiter.api.Test
+import kotlin.math.exp
 
 class TranslationTest
 {
@@ -10,8 +14,8 @@ class TranslationTest
     val wordService: WordService = WordService(mutableMapOf<Int, String>())
 
     @Test
-    fun `hoi`() = forAll(
-        row(1, "version control logs, should."),
+    fun `should return correct target sentence for wordId`() = forAll(
+        row(0, "version control logs, should."),
         row(2, "version control logs, should."),
         row(3, "version control logs, should."),
         row(4, "show that test code is checked."),
@@ -23,7 +27,6 @@ class TranslationTest
         // given
         wordService.map = text.split(" ").mapIndexed { index, string -> index to string }.toMap().toMutableMap()
 
-        println("dsa")
         // when
         val result = wordService.getTargetSentence(wordId)
 
@@ -31,56 +34,38 @@ class TranslationTest
         result shouldBe expected
     }
 
-    
     @Test
-    fun `should return target sentence`() {
+    fun `should return true if the word followed by terminator sign is reached`() = forAll(
+        row(0, false),
+        row(1, true),
+    ) {
+        wordId, expected ->
         // given
-        wordService.map = text.split(" ").mapIndexed { index, string -> index to string }.toMap().toMutableMap()
-        val expected = "show that test code is checked."
-        val wordId: Int = 5
+        val list = listOf<String>("This", "is", "test")
+        val listIterator = list.listIterator(wordId)
 
         // when
-        val result = wordService.getTargetSentence(wordId)
+        val result = listIterator.movePointerToPreviousIfSentenceIsNotOver<String>()
 
         // then
         result shouldBe expected
     }
 
-//    @Test
-//    fun `should return true if the word followed by terminator sign is reached`() {
-//        // given
-//        val list: List<String> = listOf("This", "is", "first.",
-//            "This", "is", "second.", "This", "is", "third.")
-//        val listIterator = list.listIterator()
-//
-//        // move to last word of second sentence
-//        while (listIterator.hasNext() && listIterator.nextIndex() != list.indexOf("second.")) {
-//            println("WordUnderIdnex: ${listIterator.next()}")
-//        }
-//
-//        // when
-//        val result = listIterator.sentenceIsOverOnNextForwardWord<String>()
-//
-//        // then
-//        result shouldBe true
-//    }
-//
-//    @Test
-//    fun `should return true if the word by terminator sign is reached`() {
-//        // given
-//        val list: List<String> = listOf("This", "is", "first.",
-//            "This", "is", "second.", "This", "is", "third.")
-//        val listIterator = list.listIterator()
-//
-//        // move to last word of second sentence
-//        while (listIterator.hasNext() && listIterator.nextIndex() != list.indexOf("second.")) {
-//            println("WordUnderIdnex: ${listIterator.next()}")
-//        }
-//
-//        // when
-//        val result = listIterator.sentenceIsOverOnNextForwardWord<String>()
-//
-//        // then
-//        result shouldBe true
-//    }
+    @Test
+    fun `should return true if the word by terminator sign is reached`() = forAll(
+        row(1, "This is test".split(" "), true),
+        row(2, "This is test.".split(" "), false),
+        row(3, "This is test".split(" "), false),
+        row(2, "This is test!".split(" "), false),
+    ) {
+        wordId, list, expected ->
+        // given
+        val listIterator = list.listIterator(wordId)
+
+        // when
+        val result = listIterator.movePointerToNextIfSentenceIsNotOver<String>()
+
+        // then
+        result shouldBe expected
+    }
 }

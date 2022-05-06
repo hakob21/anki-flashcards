@@ -14,24 +14,10 @@ class WordService(
         var backwardIsNotOver = true
         var forwardIsNotOver = true
 
-//        while (backwardIsNotOver || forwardIsNotOver) {
-//            if (forwardIterator.hasNext() && forwardIsNotOver) {
-//                forwardIsNotOver = !forwardIterator.sentenceIsOverOnNextForwardWord<String>()
-//                forwardIterator.next()
-//            }
-//            if (backwardsIterator.hasPrevious() && backwardIsNotOver) {
-//                backwardIsNotOver = !backwardsIterator.movePointerToPreviousIfSentenceIsNotOver<String>()
-//                if (backwardIsNotOver) {
-//                    backwardsIterator.previous()
-//                }
-//            }
-//        }
-        while (forwardIterator.movePointerToNextIfSentenceIsNotOver<String>()) {
+        while (forwardIterator.movePointerToNextIfSentenceIsNotOver<String>());
 
-        }
-        while (backwardsIterator.movePointerToPreviousIfSentenceIsNotOver<String>()) {
+        while (backwardsIterator.movePointerToPreviousIfSentenceIsNotOver<String>());
 
-        }
         return list.subList(backwardsIterator.nextIndex(), forwardIterator.nextIndex()).joinToString(separator = " ")
     }
 }
@@ -65,9 +51,4 @@ fun <T> ListIterator<String>.movePointerToPreviousIfSentenceIsNotOver(): Boolean
     } else {
         return false
     }
-
-//    if (this.hasPrevious() && !this.previous().containsOneOfCharactersFromList(terminatorList)) {
-//        return true
-//    }
-//    return false
 }
