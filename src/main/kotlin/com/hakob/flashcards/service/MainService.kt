@@ -50,7 +50,7 @@ class MainService(
 
         // var to pass to wordservice
         val map = mutableMapOf<Int, String>()
-        val list = listOf<String>()
+        val list = mutableListOf<String>()
 
         var i = 0
         paragraps.forEach {
@@ -62,7 +62,7 @@ class MainService(
                         <a name="word" href="#" onClick="return false;" id=${i}>$word</a>
                     """.trimIndent().plus(" ")
                 sentence += trimmed
-                map[i++] = word
+                list.add(word)
             }
             println("Sentence: $sentence")
 //            val first = it.childNodes().first().replaceWith(Element("a").attr("href", "https://google.com"))
