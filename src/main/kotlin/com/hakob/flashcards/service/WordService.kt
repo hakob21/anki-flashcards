@@ -14,30 +14,33 @@ class WordService(
         var backwardIsNotOver = true
         var forwardIsNotOver = true
 
-        while (backwardIsNotOver || forwardIsNotOver) {
-            if (forwardIterator.hasNext() && forwardIsNotOver) {
-                forwardIsNotOver = !forwardIterator.sentenceIsOverOnNextForwardWord<String>()
-                forwardIterator.next()
-            }
-            if (backwardsIterator.hasPrevious() && backwardIsNotOver) {
-                backwardIsNotOver = !backwardsIterator.sentenceIsOverOnNextPreviousWord<String>()
-                if (backwardIsNotOver) {
-                    backwardsIterator.previous()
-                }
-            }
-        }
+//        while (backwardIsNotOver || forwardIsNotOver) {
+//            if (forwardIterator.hasNext() && forwardIsNotOver) {
+//                forwardIsNotOver = !forwardIterator.sentenceIsOverOnNextForwardWord<String>()
+//                forwardIterator.next()
+//            }
+//            if (backwardsIterator.hasPrevious() && backwardIsNotOver) {
+//                backwardIsNotOver = !backwardsIterator.movePointerToPreviousIfSentenceIsNotOver<String>()
+//                if (backwardIsNotOver) {
+//                    backwardsIterator.previous()
+//                }
+//            }
+//        }
+        while (forwardIterator.movePointerToNextIfSentenceIsNotOver<String>()) {
 
+        }
+        while (backwardsIterator.movePointerToPreviousIfSentenceIsNotOver<String>()) {
+
+        }
         return list.subList(backwardsIterator.nextIndex(), forwardIterator.nextIndex()).joinToString(separator = " ")
     }
 }
 
-fun <T> ListIterator<String>.sentenceIsOverOnNextForwardWord(): Boolean {
+fun <T> ListIterator<String>.movePointerToNextIfSentenceIsNotOver(): Boolean {
     val terminatorList = listOf(".", "!", "?")
-    if (this.next().containsOneOfCharactersFromList(terminatorList) ) {
-        this.previous()
+    if (this.hasNext() && !this.next().containsOneOfCharactersFromList(terminatorList) ) {
         return true
     }
-    this.previous()
     return false
 }
 
@@ -50,12 +53,21 @@ fun String.containsOneOfCharactersFromList(terminatorList: List<String>): Boolea
     return false
 }
 
-fun <T> ListIterator<String>.sentenceIsOverOnNextPreviousWord(): Boolean {
+fun <T> ListIterator<String>.movePointerToPreviousIfSentenceIsNotOver(): Boolean {
     val terminatorList = listOf(".", "!", "?")
-    if (this.previous().containsOneOfCharactersFromList(terminatorList)) {
-        this.next()
-        return true
+    if (this.hasPrevious()) {
+        if (this.previous().containsOneOfCharactersFromList(terminatorList)) {
+            this.next()
+            return false
+        } else {
+            return true
+        }
+    } else {
+        return false
     }
-    this.next()
-    return false
+
+//    if (this.hasPrevious() && !this.previous().containsOneOfCharactersFromList(terminatorList)) {
+//        return true
+//    }
+//    return false
 }
