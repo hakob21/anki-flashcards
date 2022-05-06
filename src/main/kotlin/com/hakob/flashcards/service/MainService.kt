@@ -50,6 +50,7 @@ class MainService(
 
         // var to pass to wordservice
         val map = mutableMapOf<Int, String>()
+        val list = listOf<String>()
 
         var i = 0
         paragraps.forEach {
@@ -68,7 +69,7 @@ class MainService(
             it.text(sentence)
         }
 
-        wordService.map = map
+        wordService.list = list
 //        val richTextWithoutLinks = Jsoup.clean(richText, Whitelist())
         val images = finalDoc.select("img")
         images.forEach {

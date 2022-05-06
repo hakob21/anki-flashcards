@@ -4,15 +4,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class WordService(
-    var map: MutableMap<Int, String> = mutableMapOf()
+    var list: List<String> = listOf()
 ) {
     fun getTargetSentence(wordId: Int): String {
-        val list: List<String> = map.values.toList()
         val forwardIterator = list.listIterator(wordId)
         val backwardsIterator = list.listIterator(wordId)
-
-        var backwardIsNotOver = true
-        var forwardIsNotOver = true
 
         while (forwardIterator.movePointerToNextIfSentenceIsNotOver<String>());
 

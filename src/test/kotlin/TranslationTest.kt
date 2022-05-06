@@ -11,7 +11,7 @@ import kotlin.math.exp
 class TranslationTest
 {
     val text: String = "version control logs, should. show that test code is checked. in each time product code"
-    val wordService: WordService = WordService(mutableMapOf<Int, String>())
+    val wordService: WordService = WordService()
 
     @Test
     fun `should return correct target sentence for wordId`() = forAll(
@@ -25,7 +25,7 @@ class TranslationTest
     ) {
         wordId, expected ->
         // given
-        wordService.map = text.split(" ").mapIndexed { index, string -> index to string }.toMap().toMutableMap()
+        wordService.list = text.split(" ")
 
         // when
         val result = wordService.getTargetSentence(wordId)
