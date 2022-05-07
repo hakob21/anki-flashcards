@@ -74,11 +74,13 @@ class MainService(
             .replace("&gt;", ">")
     }
 
-    fun processTranslateRequest(wordIndex: Int, word: String, listOfWords: List<String>) {
+    fun processTranslateRequest(wordIndex: Int, word: String, listOfWords: List<String>): Triple<String, String, String> {
         val translatedWord = translateUtils.getTranslatedWord(word)
 
         val sentence = listOfWords.joinToString(separator = " ")
         fileUtils.addWordToTxtFile(word, translatedWord, sentence)
+
+        return Triple(word, translatedWord, sentence)
     }
 
 }
