@@ -29,5 +29,19 @@ class IntegrTestTemp(
         result shouldBe expectedTestHtmlFile
     }
 
+    @Test
+    fun newtestMainMethodProcessingHtml() {
+        // given
+        val htmlText = javaClass.getResource("/com/hakob/flashcards/testHtmlFile2.html").readText()
+//        val expectedTestHtmlFile = javaClass.getResource("/com/hakob/flashcards/resultTestHtmlFile.html").readText()
+
+        // when
+        val result = mainService.hke(htmlText)
+
+        // then
+//        result shouldBe expectedTestHtmlFile
+        println(result)
+    }
+
 
 }

@@ -1,6 +1,5 @@
 package com.hakob.flashcards.service
 
-import com.google.api.client.util.Value
 import com.hakob.flashcards.utils.FileUtils
 import com.hakob.flashcards.utils.TranslateUtils
 import org.jsoup.Jsoup
@@ -16,58 +15,63 @@ class MainService(
     val wordService: WordService
 
 ) {
-//    @Value("whiteListOfTags")
-    var whiteListOfTags: List<String> = listOf("h1","h2","h3","h4","h5","h6","p","time","div","ul","li","code","img")
+    //    @Value("whiteListOfTags")
+    var whiteListOfTags: List<String> =
+        listOf("h1", "h2", "h3", "h4", "h5", "h6", "p", "time", "div", "ul", "li", "code", "img")
 
     fun hke(richText: String): String {
-        val richTextWithoutLinks: String = Jsoup.clean(richText, Whitelist().addTags(*whiteListOfTags.toTypedArray()).removeTags("a"))
-        val finalDoc: Document = Jsoup.parse(richTextWithoutLinks)
-        val paragraps: Elements = finalDoc.select("p")
+        val richTextWithoutLinks: String =
+            Jsoup.clean(richText, Whitelist().addTags(*whiteListOfTags.toTypedArray()).removeTags("a"))
+        val jsoupDocument: Document = Jsoup.parse(richTextWithoutLinks)
+        val paragraphs: Elements = jsoupDocument.select("p")
 
         // var to pass to wordservice
-        val list = mutableListOf<String>()
+        val listOfWordsFormParagraphs = mutableListOf<String>()
 
         var i = 0
-        paragraps.forEach {
-            paragraph ->
-            println(paragraph.`val`())
+        paragraphs.forEach { paragraph ->
             var sentence = ""
-            val wordsFromParagraph: List<String> = paragraph.text().split(" ")
-            for (word in wordsFromParagraph) {
-                val trimmed =
+            val listOfWordsFromParagraph: List<String> = paragraph.text().split(" ")
+            for (word in listOfWordsFromParagraph) {
+                val wordToken =
                     """
-                        <a name="word" href="#" onClick="return false;" id=${i}>$word</a>
+                        <a name="word" href="#" onClick="return false;" id=${i++}>$word</a>
                     """.trimIndent().plus(" ")
-                sentence += trimmed
-                list.add(word)
+                sentence += wordToken
+                listOfWordsFormParagraphs.add(word)
             }
-            println("Sentence: $sentence")
-//            val first = it.childNodes().first().replaceWith(Element("a").attr("href", "https://google.com"))
             paragraph.text(sentence)
         }
 
-        wordService.list = list
-//        val richTextWithoutLinks = Jsoup.clean(richText, Whitelist())
-        val images = finalDoc.select("img")
+        wordService.listOfWords = listOfWordsFormParagraphs
+        normaliseImageSizes(jsoupDocument)
+
+        var stringHtml = getStringHtmlWithReplacedHtmlEntitiesWithCharacters(jsoupDocument)
+        stringHtml = trimIndentations(stringHtml)
+
+        return stringHtml
+    }
+
+    private fun normaliseImageSizes(jsoupDocument: Document) {
+        val images = jsoupDocument.select("img")
         images.forEach {
             it.attr("width", "500")
             it.attr("height", "500")
         }
-
-        var fin = replaceHtmlEntitiesWithCharacters(finalDoc)
-        fin = fin.split("\n").map {
-            it.trimEnd()
-        }.joinToString("\n")
-
-        println(fin)
-        return fin
     }
 
-    private fun replaceHtmlEntitiesWithCharacters(finalDoc: Document): String {
-        var fin = finalDoc.toString()
-        fin = fin.replace("&lt;", "<")
-        fin = fin.replace("&gt;", ">")
-        return fin
+    private fun trimIndentations(stringHtml: String): String {
+        var fin1 = stringHtml
+        fin1 = fin1.lines().joinToString("\n") {
+            it.trim()
+        }
+        return fin1
+    }
+
+    private fun getStringHtmlWithReplacedHtmlEntitiesWithCharacters(finalDoc: Document): String {
+        return finalDoc.toString()
+            .replace("&lt;", "<")
+            .replace("&gt;", ">")
     }
 
     fun processTranslateRequest(wordIndex: Int, word: String, listOfWords: List<String>) {

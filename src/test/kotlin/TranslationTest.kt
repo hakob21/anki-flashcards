@@ -4,9 +4,7 @@ import com.hakob.flashcards.service.movePointerToPreviousIfSentenceIsNotOver
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
 import io.kotest.matchers.shouldBe
-import io.mockk.spyk
 import org.junit.jupiter.api.Test
-import kotlin.math.exp
 
 class TranslationTest
 {
@@ -25,7 +23,7 @@ class TranslationTest
     ) {
         wordId, expected ->
         // given
-        wordService.list = text.split(" ")
+        wordService.listOfWords = text.split(" ")
 
         // when
         val result = wordService.getTargetSentence(wordId)

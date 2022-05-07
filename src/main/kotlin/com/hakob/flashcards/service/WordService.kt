@@ -4,17 +4,17 @@ import org.springframework.stereotype.Service
 
 @Service
 class WordService(
-    var list: List<String> = listOf()
+    var listOfWords: List<String> = listOf()
 ) {
     fun getTargetSentence(wordId: Int): String {
-        val forwardIterator = list.listIterator(wordId)
-        val backwardsIterator = list.listIterator(wordId)
+        val forwardIterator = listOfWords.listIterator(wordId)
+        val backwardsIterator = listOfWords.listIterator(wordId)
 
         while (forwardIterator.movePointerToNextIfSentenceIsNotOver<String>());
 
         while (backwardsIterator.movePointerToPreviousIfSentenceIsNotOver<String>());
 
-        return list.subList(backwardsIterator.nextIndex(), forwardIterator.nextIndex()).joinToString(separator = " ")
+        return listOfWords.subList(backwardsIterator.nextIndex(), forwardIterator.nextIndex()).joinToString(separator = " ")
     }
 }
 
