@@ -4,8 +4,9 @@ import com.google.api.client.util.Value
 import com.hakob.flashcards.utils.FileUtils
 import com.hakob.flashcards.utils.TranslateUtils
 import org.jsoup.Jsoup
-import org.jsoup.nodes.Element
+import org.jsoup.nodes.Document
 import org.jsoup.safety.Whitelist
+import org.jsoup.select.Elements
 import org.springframework.stereotype.Service
 
 @Service
@@ -15,35 +16,24 @@ class MainService(
     val wordService: WordService
 
 ) {
-    @Value("whiteListOfTags")
-    lateinit var whiteListOfTags: List<String>;
+//    @Value("whiteListOfTags")
+    var whiteListOfTags: List<String> = listOf("h1","h2","h3","h4","h5","h6","p","time","div","ul","li","code","img")
 
     fun hke(richText: String): String {
-        val document = Jsoup.parse(richText)
-        val onlyTextFromHtmlA = Jsoup.clean(richText, Whitelist.none())
-
-        val listOfHtmlEntities = listOf(
-            "&nbsp;",
-            "&lt;",
-            "&gt;",
-        )
-//        val only = Jsoup.clean(richText, Whitelist().addTags(*whiteListOfTags.toTypedArray()))
-        val only = Jsoup.clean(richText, Whitelist.basicWithImages())
-
-
-        val richTextWithoutLinks = Jsoup.clean(richText, Whitelist().addTags(*whiteListOfTags.toTypedArray()).removeTags("a"))
-        val finalDoc = Jsoup.parse(richTextWithoutLinks)
-        val paragraps = finalDoc.select("p")
+        val richTextWithoutLinks: String = Jsoup.clean(richText, Whitelist().addTags(*whiteListOfTags.toTypedArray()).removeTags("a"))
+        val finalDoc: Document = Jsoup.parse(richTextWithoutLinks)
+        val paragraps: Elements = finalDoc.select("p")
 
         // var to pass to wordservice
-        val map = mutableMapOf<Int, String>()
         val list = mutableListOf<String>()
 
         var i = 0
         paragraps.forEach {
-            println(it.`val`())
+            paragraph ->
+            println(paragraph.`val`())
             var sentence = ""
-            for (word in it.text().split(" ")) {
+            val wordsFromParagraph: List<String> = paragraph.text().split(" ")
+            for (word in wordsFromParagraph) {
                 val trimmed =
                     """
                         <a name="word" href="#" onClick="return false;" id=${i}>$word</a>
@@ -53,7 +43,7 @@ class MainService(
             }
             println("Sentence: $sentence")
 //            val first = it.childNodes().first().replaceWith(Element("a").attr("href", "https://google.com"))
-            it.text(sentence)
+            paragraph.text(sentence)
         }
 
         wordService.list = list
@@ -64,10 +54,19 @@ class MainService(
             it.attr("height", "500")
         }
 
+        var fin = replaceHtmlEntitiesWithCharacters(finalDoc)
+        fin = fin.split("\n").map {
+            it.trimEnd()
+        }.joinToString("\n")
+
+        println(fin)
+        return fin
+    }
+
+    private fun replaceHtmlEntitiesWithCharacters(finalDoc: Document): String {
         var fin = finalDoc.toString()
         fin = fin.replace("&lt;", "<")
         fin = fin.replace("&gt;", ">")
-        println(fin)
         return fin
     }
 
