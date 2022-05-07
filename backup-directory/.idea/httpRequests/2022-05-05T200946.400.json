@@ -1,0 +1,6 @@
+{
+  "timestamp": "2022-05-05T18:09:46.279+00:00",
+  "status": 400,
+  "error": "Bad Request",
+  "path": "/translate"
+}

@@ -30,7 +30,8 @@ class MainServiceTest {
 
     @Test
     fun hkeTest2() {
-        println(javaClass.getResource("testHtmlFile.html").file)
+        println(javaClass.getResource("/com/hakob/flashcards/testHtmlFile.html").file)
+//        println(javaClass.getResource("/com/hakob/flashcards/stylesheet.css").file)
 //        val url = File(javaClass.getResource("testHtmlFile.html").file)
 //        url.exists() shouldBe true
     }
