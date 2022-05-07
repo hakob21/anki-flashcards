@@ -1,5 +1,6 @@
 package com.hakob.flashcards.service
 
+import com.google.api.client.util.Value
 import com.hakob.flashcards.utils.FileUtils
 import com.hakob.flashcards.utils.TranslateUtils
 import org.jsoup.Jsoup
@@ -14,27 +15,13 @@ class MainService(
     val wordService: WordService
 
 ) {
+    @Value("whiteListOfTags")
+    lateinit var whiteListOfTags: List<String>;
 
     fun hke(richText: String): String {
         val document = Jsoup.parse(richText)
         val onlyTextFromHtmlA = Jsoup.clean(richText, Whitelist.none())
 
-
-        val whiteListOfTags = listOf(
-            "h1",
-            "h2",
-            "h3",
-            "h4",
-            "h5",
-            "h6",
-            "p",
-            "time",
-            "div",
-            "ul",
-            "li",
-            "code",
-            "img"
-        )
         val listOfHtmlEntities = listOf(
             "&nbsp;",
             "&lt;",
