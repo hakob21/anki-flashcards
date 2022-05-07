@@ -11,22 +11,22 @@ class MainServiceTest {
     @Autowired
     lateinit var mainService: MainService
 
-    @Test
-    fun hkeTest() {
-        val file = File("src/test/kotlin/resources/testHtmlFile.html")
-
-
-//        File(javaClass.getResource("src/test/kotlin/resources/testHtmlFile.html").toURI()).exists() shouldBe true
-        val classLoader = this.javaClass.classLoader
-        val fileCl = File(classLoader.getResource("testHtmlFile.html").file)
-//        val fileCl = File(classLoader.getResource("application.properties").file)
+//    @Test
+//    fun hkeTest() {
+//        val file = File("src/test/kotlin/resources/testHtmlFile.html")
 //
-        fileCl.exists() shouldBe true
-
-//        val url = this.javaClass.getResource("/testHtmlFile.html")
-//        val fileClasRes = File(this.javaClass.getResource("/testHtmlFile.html").file)
-//        fileClasRes.exists() shouldBe true
-    }
+//
+////        File(javaClass.getResource("src/test/kotlin/resources/testHtmlFile.html").toURI()).exists() shouldBe true
+//        val classLoader = this.javaClass.classLoader
+//        val fileCl = File(classLoader.getResource("testHtmlFile.html").file)
+////        val fileCl = File(classLoader.getResource("application.properties").file)
+////
+//        fileCl.exists() shouldBe true
+//
+////        val url = this.javaClass.getResource("/testHtmlFile.html")
+////        val fileClasRes = File(this.javaClass.getResource("/testHtmlFile.html").file)
+////        fileClasRes.exists() shouldBe true
+//    }
 
     @Test
     fun hkeTest2() {
