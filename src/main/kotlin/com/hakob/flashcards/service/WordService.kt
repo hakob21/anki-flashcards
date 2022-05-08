@@ -1,25 +1,48 @@
 package com.hakob.flashcards.service
 
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
+import org.jsoup.nodes.Node
+import org.jsoup.safety.Whitelist
+import org.jsoup.select.Elements
 import org.springframework.stereotype.Service
+
+val terminatorList = listOf(".", "!", "?")
 
 @Service
 class WordService(
-    var listOfWords: List<String> = listOf()
+    var listOfWords: List<String> = listOf(),
+    var document: Document = Document("")
 ) {
-    fun getTargetSentence(wordId: Int): String {
-        val forwardIterator = listOfWords.listIterator(wordId)
-        val backwardsIterator = listOfWords.listIterator(wordId)
+    fun getTargetParagraphOrFallbackToSentenceInParagraph(wordId: Int): String {
+        val paragraphs: Elements = document.select("p")
+
+        //TODO: what to do in case of paragraph not found? Throw exception?
+        val paragraph: Node? = paragraphs.select("a").find { it.id().equals(wordId.toString()) }?.parentNode()
+
+        val paragraphElement = paragraph as Element
+        val cleanParagraphString = Jsoup.clean(paragraphElement.html(), Whitelist.none())
+
+        if (cleanParagraphString.containsOneOfCharactersFromList(terminatorList)) {
+            return getTargetSentence(wordId, cleanParagraphString.split(" "))
+        }
+        return cleanParagraphString
+    }
+
+    fun getTargetSentence(wordId: Int, listOfWordsInParagraph: List<String> = listOfWords): String {
+        val forwardIterator = listOfWordsInParagraph.listIterator(wordId)
+        val backwardsIterator = listOfWordsInParagraph.listIterator(wordId)
 
         while (forwardIterator.movePointerToNextIfSentenceIsNotOver<String>());
 
         while (backwardsIterator.movePointerToPreviousIfSentenceIsNotOver<String>());
 
-        return listOfWords.subList(backwardsIterator.nextIndex(), forwardIterator.nextIndex()).joinToString(separator = " ")
+        return listOfWordsInParagraph.subList(backwardsIterator.nextIndex(), forwardIterator.nextIndex()).joinToString(separator = " ")
     }
 }
 
 fun <T> ListIterator<String>.movePointerToNextIfSentenceIsNotOver(): Boolean {
-    val terminatorList = listOf(".", "!", "?")
     if (this.hasNext() && !this.next().containsOneOfCharactersFromList(terminatorList) ) {
         return true
     }
@@ -36,15 +59,14 @@ fun String.containsOneOfCharactersFromList(terminatorList: List<String>): Boolea
 }
 
 fun <T> ListIterator<String>.movePointerToPreviousIfSentenceIsNotOver(): Boolean {
-    val terminatorList = listOf(".", "!", "?")
-    if (this.hasPrevious()) {
+    return if (this.hasPrevious()) {
         if (this.previous().containsOneOfCharactersFromList(terminatorList)) {
             this.next()
-            return false
+            false
         } else {
-            return true
+            true
         }
     } else {
-        return false
+        false
     }
 }

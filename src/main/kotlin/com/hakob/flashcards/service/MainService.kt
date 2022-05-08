@@ -49,6 +49,8 @@ class MainService(
         var stringHtml = getStringHtmlWithReplacedHtmlEntitiesWithCharacters(jsoupDocument)
         stringHtml = trimIndentations(stringHtml)
 
+        wordService.document = Jsoup.parse(stringHtml)
+
         return stringHtml
     }
 
@@ -77,7 +79,8 @@ class MainService(
     fun processTranslateRequest(wordIndex: Int, word: String, listOfWords: List<String>): Triple<String, String, String> {
         val translatedWord = translateUtils.getTranslatedWord(word)
 
-        val sentence = listOfWords.joinToString(separator = " ")
+//        val sentence = listOfWords.joinToString(separator = " ")
+        val sentence = wordService.getTargetParagraphOrFallbackToSentenceInParagraph(wordIndex)
         fileUtils.addWordToTxtFile(word, translatedWord, sentence)
 
         return Triple(word, translatedWord, sentence)
