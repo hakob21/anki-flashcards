@@ -37,7 +37,6 @@ class MainService(
                     """
                         <a name="word" href="#" onClick="return false;" id=${i++}>$word</a>
                     """.trimIndent().plus(" ")
-//                <a name="word" id="${i++}">$word</a>
                 sentence += wordToken
                 listOfWordsFormParagraphs.add(word)
             }
