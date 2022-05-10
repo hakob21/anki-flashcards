@@ -76,7 +76,7 @@ class MainService(
             .replace("&gt;", ">")
     }
 
-    fun processTranslateRequest(wordIndex: Int, word: String, listOfWords: List<String>): Triple<String, String, String> {
+    fun processTranslateRequest(wordIndex: Int, word: String): Triple<String, String, String> {
         val translatedWord = translateUtils.getTranslatedWord(word)
 
 //        val sentence = listOfWords.joinToString(separator = " ")

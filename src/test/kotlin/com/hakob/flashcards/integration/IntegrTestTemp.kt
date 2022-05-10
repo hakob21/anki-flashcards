@@ -36,7 +36,7 @@ class IntegrTestTemp(
         val translationRequest: TranslationRequest = TranslationRequest(
             indexOfWordToTranslate = 199,
             wordToTranslate = "key",
-            sentence = "This is a context sentence which contains the key word and the word 'key' here should be translated".split(" ")
+//            sentence = "This is a context sentence which contains the key word and the word 'key' here should be translated".split(" ")
         )
         val expected: Triple<String, String, String> = Triple("key", "ключ", "This is a context sentence which contains the key word and the word 'key' here should be translated")
 
@@ -47,7 +47,7 @@ class IntegrTestTemp(
         println(result)
 
         // when
-        val result2 = mainService.processTranslateRequest(translationRequest.indexOfWordToTranslate, translationRequest.wordToTranslate, translationRequest.sentence)
+        val result2 = mainService.processTranslateRequest(translationRequest.indexOfWordToTranslate, translationRequest.wordToTranslate)
 
         // then
         result2 shouldBe expected
