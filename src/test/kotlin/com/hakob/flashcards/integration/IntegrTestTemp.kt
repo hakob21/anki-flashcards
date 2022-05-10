@@ -34,7 +34,7 @@ class IntegrTestTemp(
         // given
         val htmlText = javaClass.getResource("/com/hakob/flashcards/testHtmlFile2.html").readText()
         val translationRequest: TranslationRequest = TranslationRequest(
-            indexOfWordToTranslate = 191,
+            indexOfWordToTranslate = 199,
             wordToTranslate = "key",
             sentence = "This is a context sentence which contains the key word and the word 'key' here should be translated".split(" ")
         )
@@ -45,7 +45,6 @@ class IntegrTestTemp(
 
         // then
         println(result)
-
 
         // when
         val result2 = mainService.processTranslateRequest(translationRequest.indexOfWordToTranslate, translationRequest.wordToTranslate, translationRequest.sentence)

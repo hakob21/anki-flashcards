@@ -38,6 +38,11 @@
     </div>
 </nav>
 
+<div>
+    <p th:text="${testVal}">iiiiiiiiiiiiii</p>
+    <p th:text="${localPort}">iiiiiiiiiiiiii</p>
+    <p th:text="'localPort'">iiiiiiiiiiiiii</p>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-sm-12 mt-5">
@@ -48,37 +53,38 @@
     </div>
 </div>
 
-<script>
-    const tag = document.getElementsByName('word');
-    const max = tag.length;
+<script th:inline="javascript">
+    var port = [[${localPort}]]
+    console.log("localporrrtt: " + port)
+    var tag = document.getElementsByName("word");
+    // const max = tag.length;
     console.log(tag.length)
-    tag.forEach(
-        item => {
-            item.addEventListener('click', event => {
-                    let i;
-                    var itemId = parseInt(item.id)
-                    var arr = []
+    for (var i1 = 0; i1 < tag.length; i1++){
+        var item = tag[i1];
+        item.addEventListener('click', function (event) {
+                var i;
+                var itemId = parseInt(this.id)
+                var arr = []
 
-                    for (i = itemId; i > itemId - 6 && i > 0; i--) {
-                        arr.unshift(document.getElementById(i).textContent)
-                    }
-
-                    for (i = itemId; i < itemId + 6; i++) {
-                        arr.push(document.getElementById(i).textContent)
-                    }
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", "http://localhost:8080/translate", true);
-                    xhr.setRequestHeader('Content-Type', 'application/json');
-                    xhr.send(JSON.stringify({
-                        indexOfWordToTranslate: arr.length / 2,
-                        wordToTranslate: arr[arr.length / 2],
-                        sentence: arr
-                    }));
-                    console.log("Final array " + arr)
+                for (i = itemId; i > itemId - 6 && i > 0; i--) {
+                    arr.unshift(document.getElementById(i).textContent)
                 }
-            )
-        }
-    )
+
+                for (i = itemId; i < itemId + 6; i++) {
+                    arr.push(document.getElementById(i).textContent)
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "http://localhost:" + port + "/translate", true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send(JSON.stringify({
+                    indexOfWordToTranslate: arr.length / 2,
+                    wordToTranslate: arr[arr.length / 2],
+                    sentence: arr
+                }));
+                console.log("Final array " + arr)
+            }
+        )
+    }
 </script>
 
 </body>
