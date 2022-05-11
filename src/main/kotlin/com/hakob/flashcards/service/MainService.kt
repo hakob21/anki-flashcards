@@ -13,7 +13,6 @@ class MainService(
     val translateUtils: TranslateUtils,
     val fileUtils: FileUtils,
     val wordService: WordService
-
 ) {
     //    @Value("whiteListOfTags")
     var whiteListOfTags: List<String> =
@@ -33,11 +32,11 @@ class MainService(
             var sentence = ""
             val listOfWordsFromParagraph: List<String> = paragraph.text().split(" ")
             for (word in listOfWordsFromParagraph) {
-                val wordToken =
+                val htmlAnchor =
                     """
                         <a name="word" href="#" onClick="return false;" id=${i++}>$word</a>
                     """.trimIndent().plus(" ")
-                sentence += wordToken
+                sentence += htmlAnchor
                 listOfWordsFormParagraphs.add(word)
             }
             paragraph.text(sentence)
@@ -78,8 +77,6 @@ class MainService(
 
     fun processTranslateRequest(wordIndex: Int, word: String): Triple<String, String, String> {
         val translatedWord = translateUtils.getTranslatedWord(word)
-
-//        val sentence = listOfWords.joinToString(separator = " ")
         val sentence = wordService.getTargetParagraphOrFallbackToSentenceInParagraph(wordIndex)
         fileUtils.addWordToTxtFile(word, translatedWord, sentence)
 

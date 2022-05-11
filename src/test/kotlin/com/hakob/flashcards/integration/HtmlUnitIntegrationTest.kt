@@ -65,15 +65,11 @@ class HtmlUnitIntegrationTest(
 
         // when
         val indexPage = webClient.getPage<HtmlPage>(url)
-        println("xhke")
-        println("xhke")
         val textAreaOnIndexPage = indexPage.getElementById("content")
         textAreaOnIndexPage.textContent = javaClass.getResource("/com/hakob/flashcards/testHtmlFile2.html").readText()
         val generatedHtmlPage = indexPage.getElementById("ta-submit").click<HtmlPage>()
 
-        println(generatedHtmlPage.webResponse.contentAsString)
         val wordToTranslateFromGeneratedHtmlPage = generatedHtmlPage.getElementById(idOfWordToTranslate)
-        println(wordToTranslateFromGeneratedHtmlPage.textContent)
         wordToTranslateFromGeneratedHtmlPage.click<HtmlPage>()
 
         // in order for javascript eventListener function to have time to execute
@@ -81,7 +77,6 @@ class HtmlUnitIntegrationTest(
 
         // expected
         val textFromTestAnkiFile = testAnkiFile.readText()
-        println("First: ${ testAnkiFile.readText().lines().first() }")
         textFromTestAnkiFile.lines() shouldHaveSize 1
         textFromTestAnkiFile.lines().first() shouldBe expected
     }
