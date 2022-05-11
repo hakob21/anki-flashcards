@@ -46,8 +46,8 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12 mt-5">
-            <h1 th:text="${post.title}">Title</h1>
-            <div th:utext="${post.content}">Content</div>
+            <h1 th:text="${submitForm.title}">Title</h1>
+            <div th:utext="${submitForm.content}">Content</div>
             <a th:href="@{/}" class="btn btn-primary">Go back</a>
         </div>
     </div>

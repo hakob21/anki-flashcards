@@ -1,7 +1,7 @@
 package com.hakob.flashcards.frontendController
 
 import com.hakob.flashcards.service.MainService
-import com.hakob.flashcards.service.Post
+import com.hakob.flashcards.service.SubmitForm
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -21,18 +21,18 @@ class MainController(
     @GetMapping
     fun mainPage(model: Model): String {
         println("HeyPost: $localPort")
-        model.addAttribute("post", Post())
+        model.addAttribute("submitForm", SubmitForm())
         return "index"
     }
 
     @PostMapping
-    fun save(post: Post, model: Model): String? {
+    fun save(submitForm: SubmitForm, model: Model): String? {
         model.addAttribute("localPort", localPort)
         model.addAttribute("testVal", "myTestValue")
 
-        val richTextWithoutLinks = mainService.submitPageAndReturnGeneratedPage(post.content)
-        val newPost = Post("tt", richTextWithoutLinks)
-        model.addAttribute("post", newPost)
+        val richTextWithoutLinks = mainService.submitPageAndReturnGeneratedPage(submitForm.content)
+        val newSubmitForm = SubmitForm("tt", richTextWithoutLinks)
+        model.addAttribute("submitForm", newSubmitForm)
         return "saved"
     }
 }
