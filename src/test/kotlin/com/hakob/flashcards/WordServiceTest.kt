@@ -1,3 +1,5 @@
+package com.hakob.flashcards
+
 import com.hakob.flashcards.service.MainService
 import com.hakob.flashcards.service.WordService
 import com.hakob.flashcards.service.movePointerToNextIfSentenceIsNotOver
@@ -11,15 +13,10 @@ import io.mockk.mockk
 import org.jsoup.Jsoup
 import org.junit.jupiter.api.Test
 
-class TranslationTest
+class WordServiceTest
 {
     val text: String = "version control logs, should. show that test code is checked. in each time product code"
     val wordService: WordService = WordService()
-    val mainService: MainService = MainService(
-        mockk<TranslateUtils>(),
-        mockk<FileUtils>(),
-        wordService
-    )
 
     @Test
     fun `should return correct target sentence for wordId`() = forAll(
