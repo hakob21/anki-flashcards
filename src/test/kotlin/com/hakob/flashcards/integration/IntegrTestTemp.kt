@@ -23,7 +23,7 @@ class IntegrTestTemp(
         val htmlText = javaClass.getResource("/com/hakob/flashcards/testHtmlFile.html").readText()
         val expectedStringHtml = javaClass.getResource("/com/hakob/flashcards/resultTestHtmlFile.html").readText()
         // when
-        val result: String = mainService.hke(htmlText)
+        val result: String = mainService.submitPageAndReturnGeneratedPage(htmlText)
 
         // then
         result shouldBe expectedStringHtml
@@ -41,7 +41,7 @@ class IntegrTestTemp(
         val expected: Triple<String, String, String> = Triple("key", "ключ", "This is a context sentence which contains the key word and the word 'key' here should be translated")
 
         // when
-        val result: String = mainService.hke(htmlText)
+        val result: String = mainService.submitPageAndReturnGeneratedPage(htmlText)
 
         // then
         println(result)

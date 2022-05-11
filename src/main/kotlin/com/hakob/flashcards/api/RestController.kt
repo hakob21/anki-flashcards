@@ -1,4 +1,4 @@
-package com.hakob.flashcards.controller
+package com.hakob.flashcards.api
 
 import com.hakob.flashcards.service.MainService
 import com.hakob.flashcards.service.TranslationRequest

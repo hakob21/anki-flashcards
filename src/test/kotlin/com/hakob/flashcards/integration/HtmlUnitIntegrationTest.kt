@@ -2,8 +2,8 @@ package com.hakob.flashcards.integration
 
 import com.gargoylesoftware.htmlunit.WebClient
 import com.gargoylesoftware.htmlunit.html.HtmlPage
-import com.hakob.flashcards.controller.MainController
-import com.hakob.flashcards.controller.RestController
+import com.hakob.flashcards.frontendController.MainController
+import com.hakob.flashcards.api.RestController
 import com.hakob.flashcards.utils.FileUtils
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe

@@ -19,7 +19,7 @@ class MainService(
     var whiteListOfTags: List<String> =
         listOf("h1", "h2", "h3", "h4", "h5", "h6", "p", "time", "div", "ul", "li", "code", "img")
 
-    fun hke(richText: String): String {
+    fun submitPageAndReturnGeneratedPage(richText: String): String {
         val richTextWithoutLinks: String =
             Jsoup.clean(richText, Whitelist().addTags(*whiteListOfTags.toTypedArray()).removeTags("a"))
         val jsoupDocument: Document = Jsoup.parse(richTextWithoutLinks)
