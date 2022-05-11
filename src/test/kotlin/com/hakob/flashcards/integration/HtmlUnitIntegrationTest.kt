@@ -2,7 +2,7 @@ package com.hakob.flashcards.integration
 
 import com.gargoylesoftware.htmlunit.WebClient
 import com.gargoylesoftware.htmlunit.html.HtmlPage
-import com.hakob.flashcards.frontendController.MainController
+import com.hakob.flashcards.frontendController.FrontendController
 import com.hakob.flashcards.api.RestController
 import com.hakob.flashcards.utils.FileUtils
 import io.kotest.matchers.collections.shouldHaveSize
@@ -24,7 +24,7 @@ class HtmlUnitIntegrationTest(
     val restController: RestController,
 
     @Autowired
-    val mainController: MainController,
+    val frontendController: FrontendController,
 
     @Autowired
     val fileUtils: FileUtils
@@ -35,7 +35,7 @@ class HtmlUnitIntegrationTest(
     @BeforeEach
     fun initialize() {
         webClient = WebClient()
-        mainController.localPort = port
+        frontendController.localPort = port
         val filePathInResources = javaClass.getResource(".").file + "testAnkiFile.txt"
         fileUtils.setFilePathInResources(filePathInResources)
         testAnkiFile = File(filePathInResources)

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping("/index")
-class MainController(
+class FrontendController(
     val mainService: MainService,
 
     @Value("\${server.port}")
