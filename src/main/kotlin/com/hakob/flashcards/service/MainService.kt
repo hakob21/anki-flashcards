@@ -16,7 +16,36 @@ class MainService(
 ) {
     //    @Value("whiteListOfTags")
     var whiteListOfTags: List<String> =
-        listOf("h1", "h2", "h3", "h4", "h5", "h6", "p", "time", "div", "ul", "li", "code", "img")
+//        listOf("h1", "h2", "h3", "h4", "h5", "h6", "p", "time", "div", "ul", "li", "code", "img")
+        listOf(
+            "p",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "strong",
+            "em",
+            "abbr",
+            "acronym",
+            "address",
+            "bdo",
+            "blockquote",
+            "cite",
+            "q",
+            "code",
+            "ins",
+            "del",
+            "dfn",
+            "kbd",
+            "pre",
+            "samp",
+            "var",
+            "br",
+            "img", "area", "map", "param", "object",
+            "ul", "ol", "li", "dl", "dt", "dd",
+        )
 
     fun submitPageAndReturnGeneratedPage(richText: String): String {
         val richTextWithoutLinks: String =

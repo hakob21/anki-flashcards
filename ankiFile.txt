@@ -46,3 +46,4 @@ refresh; обновить <br></br> In this article, we will refresh your knowle
 allows; позволяет <br></br> This powerful tool allows you to set up and deploy applications using containers.
 kernel; ядро. <br></br> Docker is sort of like a virtual machine, but Docker enables applications to access the same Linux kernel.
 lightweight; легкий <br></br> Toasts are lightweight notifications designed to mimic the push notifications that have been popularized by mobile and desktop operating systems.
+lightweight; легкий <br></br> Toasts are lightweight notifications designed to mimic the push notifications that have been popularized by mobile and desktop operating systems.
