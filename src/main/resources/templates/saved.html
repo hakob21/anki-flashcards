@@ -4,7 +4,10 @@
     <meta charset="UTF-8"/>
     <title>Spring Boot Thymeleaf Application - Bootstrap Rich Text Editor</title>
 
-    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+<!--    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>-->
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -52,6 +55,18 @@
     </div>
 </div>
 
+<!--<button type="button" class="btn btn-danger" id="basicToastBtn">Join us</button>-->
+
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="basicToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-primary text-light">
+            <h5 class="my-0">Success!</h5>
+        </div>
+        <div class="toast-body" id="toast-body">
+            <strong>Mind Numbing Products</strong> is a force in the manufacturing and production market. Our motto is If it’s not Mind Numbing, it’s not worth it.
+        </div>
+    </div>
+</div>
 <script th:inline="javascript">
     var port = [[${localPort}]]
     console.log("localporrrtt: " + port)
@@ -69,9 +84,23 @@
                     wordToTranslate: document.getElementById(this.id).textContent
                 }));
                 console.log("Final array " + document.getElementById(this.id).textContent)
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == XMLHttpRequest.DONE) {
+                    console.log(xhr.responseText)
+                    var toastDiv = document.querySelector('#toast-body')
+                    toastDiv.innerHTML = xhr.responseText
+
+                    var toast = new bootstrap.Toast(document.querySelector('#basicToast'))
+                    toast.show();
+                }
+            }
                 // console.log("Final array " + document.getElementById(this.id))
             }
         )
+    }
+    document.querySelector("#basicToastBtn").onclick = function() {
+        new bootstrap.Toast(document.querySelector('#basicToast')).show();
     }
 </script>
 

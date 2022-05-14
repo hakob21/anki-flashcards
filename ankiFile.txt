@@ -26,3 +26,23 @@ application; заявление <br></br> Containers allow us to package all the
 image; изображение: <br></br> image: If we don’t have a Dockerfile and want to run a service using a pre-built image, we specify the image location using the image clause.
 specify; уточнить <br></br> image: If we don’t have a Dockerfile and want to run a service using a pre-built image, we specify the image location using the image clause.
 comfortable; комфортный <br></br> Once you are comfortable making docker-compose files and working with the necessary commands, you can move onto the following advancements: Educative’s advanced Docker course Working with Containers: Docker & Docker Compose is an ideal place to learn these concepts and beyond.
+consistent; последовательный <br></br> With the consistent environment of Docker, the development lifecycle of applications is easy and seamless.
+environment; Окружающая среда <br></br> With the consistent environment of Docker, the development lifecycle of applications is easy and seamless.
+environment; Окружающая среда <br></br> With the consistent environment of Docker, the development lifecycle of applications is easy and seamless.
+knowledge; знание <br></br> In this article, we will refresh your knowledge of Docker and show you how to get started with Docker Compose.
+knowledge; знание <br></br> In this article, we will refresh your knowledge of Docker and show you how to get started with Docker Compose.
+guide; гид <br></br> If you’re new to DevOps, check out our beginner’s guide to Docker and Kubernetes before proceeding with this tutorial.
+powerful; мощный <br></br> Docker… Docker is commonly used alongside Kubernetes, a powerful container management tool that automates the deployment of your Docker containers.
+development; разработка <br></br> With the consistent environment of Docker, the development lifecycle of applications is easy and seamless.
+containers; контейнеры. <br></br> The basic structure of Docker relies on images and containers.
+Docker; Докер <br></br> In this article, we will refresh your knowledge of Docker and show you how to get started with Docker Compose.
+and; и <br></br> In this article, we will refresh your knowledge of Docker and show you how to get started with Docker Compose.
+show; шоу <br></br> In this article, we will refresh your knowledge of Docker and show you how to get started with Docker Compose.
+development; разработка <br></br> With the consistent environment of Docker, the development lifecycle of applications is easy and seamless.
+creation; творчество <br></br> Working with Containers: Docker & Docker Compose  Docker is an open-source containerization tool used to simplify the creation and deployment of applications by using the concept of containers.
+simplify; упрощать <br></br> Working with Containers: Docker & Docker Compose  Docker is an open-source containerization tool used to simplify the creation and deployment of applications by using the concept of containers.
+lifecycle; жизненный цикл <br></br> With the consistent environment of Docker, the development lifecycle of applications is easy and seamless.
+refresh; обновить <br></br> In this article, we will refresh your knowledge of Docker and show you how to get started with Docker Compose.
+allows; позволяет <br></br> This powerful tool allows you to set up and deploy applications using containers.
+kernel; ядро. <br></br> Docker is sort of like a virtual machine, but Docker enables applications to access the same Linux kernel.
+lightweight; легкий <br></br> Toasts are lightweight notifications designed to mimic the push notifications that have been popularized by mobile and desktop operating systems.
