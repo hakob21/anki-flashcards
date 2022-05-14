@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/translate")
-class RestController(
+class TranslateRestController(
     val mainService: MainService
 ) {
     @PostMapping(consumes = arrayOf("application/json"), produces = arrayOf("application/json"))

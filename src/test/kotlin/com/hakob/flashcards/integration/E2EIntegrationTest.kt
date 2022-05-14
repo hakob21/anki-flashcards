@@ -1,9 +1,11 @@
 package com.hakob.flashcards.integration
 
 import com.gargoylesoftware.htmlunit.WebClient
+import com.gargoylesoftware.htmlunit.html.HtmlInput
 import com.gargoylesoftware.htmlunit.html.HtmlPage
 import com.hakob.flashcards.frontendController.FrontendController
-import com.hakob.flashcards.api.RestController
+import com.hakob.flashcards.api.TranslateRestController
+import com.hakob.flashcards.frontendController.UrlProviderController
 import com.hakob.flashcards.utils.FileUtils
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -21,14 +23,18 @@ class E2EIntegrationTest(
     var port: Int,
 
     @Autowired
-    val restController: RestController,
+    val translateRestController: TranslateRestController,
 
     @Autowired
     val frontendController: FrontendController,
 
     @Autowired
-    val fileUtils: FileUtils
-) {
+    val fileUtils: FileUtils,
+
+    @Autowired
+    val urlProviderController: UrlProviderController
+
+    ) {
     lateinit var webClient: WebClient
     lateinit var testAnkiFile: File
 
@@ -36,11 +42,18 @@ class E2EIntegrationTest(
     fun initialize() {
         webClient = WebClient()
         frontendController.localPort = port
+        urlProviderController.localPort = port
         val filePathInResources = javaClass.getResource(".").file + "testAnkiFile.txt"
         fileUtils.setFilePathInResources(filePathInResources)
         testAnkiFile = File(filePathInResources)
         // if for any reason file was not deleted after previous test execution
         testAnkiFile.delete()
+
+        webClient.options.isThrowExceptionOnScriptError = false
+        webClient.options.isThrowExceptionOnFailingStatusCode = false
+        webClient.options.isCssEnabled = true
+
+        webClient.options.isJavaScriptEnabled = true
     }
 
     @AfterEach
@@ -55,11 +68,6 @@ class E2EIntegrationTest(
         val url = "http://localhost:$port/index"
         val idOfWordToTranslate = "199"
 
-        webClient.options.isThrowExceptionOnScriptError = false
-        webClient.options.isThrowExceptionOnFailingStatusCode = false
-        webClient.options.isCssEnabled = true
-
-        webClient.options.isJavaScriptEnabled = true
 
         val expected = "key; ключ <br></br> This is a context sentence which contains the key word and the word 'key' here should be translated"
 

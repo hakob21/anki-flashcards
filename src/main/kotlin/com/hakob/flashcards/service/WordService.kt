@@ -25,7 +25,7 @@ class WordService(
         val cleanParagraphString = Jsoup.clean(paragraphElement.html(), Whitelist.none())
 
         if (cleanParagraphString.containsOneOfCharactersFromList(terminatorList)) {
-            return getTargetSentence(wordId, cleanParagraphString.split(" "))
+            return getTargetSentence(wordId)
         }
         return cleanParagraphString
     }

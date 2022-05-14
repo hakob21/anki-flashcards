@@ -46,7 +46,8 @@ class MainService(
         normaliseImageSizes(jsoupDocument)
 
         var stringHtml = getStringHtmlWithReplacedHtmlEntitiesWithCharacters(jsoupDocument)
-        stringHtml = trimIndentations(stringHtml)
+        stringHtml = stringHtml.trimIndentations()
+//        stringHtml = trimIndentations(stringHtml)
 
         wordService.document = Jsoup.parse(stringHtml)
 
@@ -83,4 +84,12 @@ class MainService(
         return Triple(word, translatedWord, sentence)
     }
 
+}
+
+fun String.trimIndentations(): String {
+    var fin1 = this
+    fin1 = fin1.lines().joinToString("\n") {
+        it.trim()
+    }
+    return fin1
 }

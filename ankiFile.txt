@@ -20,3 +20,9 @@ key; ключ <br></br> This is a context sentence which contains the key word a
 key; ключ <br></br> This is a context sentence which contains the key word and the word 'key' here should be translated
 key; ключ <br></br> This is a context sentence which contains the key word and the word 'key' here should be translated
 key; ключ <br></br> This is a context sentence which contains the key word and the word 'key' here should be translated
+environment; Окружающая среда <br></br> With the consistent environment of Docker, the development lifecycle of applications is easy and seamless.
+knowledge; знание <br></br> In this article, we will refresh your knowledge of Docker and show you how to get started with Docker Compose.
+application; заявление <br></br> Containers allow us to package all the parts of an application and deploy it as one entity.
+image; изображение: <br></br> image: If we don’t have a Dockerfile and want to run a service using a pre-built image, we specify the image location using the image clause.
+specify; уточнить <br></br> image: If we don’t have a Dockerfile and want to run a service using a pre-built image, we specify the image location using the image clause.
+comfortable; комфортный <br></br> Once you are comfortable making docker-compose files and working with the necessary commands, you can move onto the following advancements: Educative’s advanced Docker course Working with Containers: Docker & Docker Compose is an ideal place to learn these concepts and beyond.
