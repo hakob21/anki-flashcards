@@ -47,3 +47,4 @@ allows; позволяет <br></br> This powerful tool allows you to set up and
 kernel; ядро. <br></br> Docker is sort of like a virtual machine, but Docker enables applications to access the same Linux kernel.
 lightweight; легкий <br></br> Toasts are lightweight notifications designed to mimic the push notifications that have been popularized by mobile and desktop operating systems.
 lightweight; легкий <br></br> Toasts are lightweight notifications designed to mimic the push notifications that have been popularized by mobile and desktop operating systems.
+simplify; упрощать <br></br> Working with Containers: Docker & Docker Compose  Docker is an open-source containerization tool used to simplify the creation and deployment of applications by using the concept of containers.
