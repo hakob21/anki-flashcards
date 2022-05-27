@@ -16,41 +16,41 @@ class MainService(
 ) {
     //    @Value("whiteListOfTags")
     var whiteListOfTags: List<String> =
-//        listOf("h1", "h2", "h3", "h4", "h5", "h6", "p", "time", "div", "ul", "li", "code", "img")
-        listOf(
-            "p",
-            "h1",
-            "h2",
-            "h3",
-            "h4",
-            "h5",
-            "h6",
-            "strong",
-            "em",
-            "abbr",
-            "acronym",
-            "address",
-            "bdo",
-            "blockquote",
-            "cite",
-            "q",
-            "code",
-            "ins",
-            "del",
-            "dfn",
-            "kbd",
-            "pre",
-            "samp",
-            "var",
-            "br",
-            "img", "area", "map", "param", "object",
-            "ul", "ol", "li", "dl", "dt", "dd",
-        )
+        listOf("h1", "h2", "h3", "h4", "h5", "h6", "p", "time", "div", "ul", "li", "code", "img")
+//        listOf(
+//            "p",
+//            "h1",
+//            "h2",
+//            "h3",
+//            "h4",
+//            "h5",
+//            "h6",
+//            "strong",
+//            "em",
+//            "abbr",
+//            "acronym",
+//            "address",
+//            "bdo",
+//            "blockquote",
+//            "cite",
+//            "q",
+//            "code",
+//            "ins",
+//            "del",
+//            "dfn",
+//            "kbd",
+//            "pre",
+//            "samp",
+//            "var",
+//            "br",
+//            "img", "area", "map", "param", "object",
+//            "ul", "ol", "li", "dl", "dt", "dd",
+//        )
 
     fun submitPageAndReturnGeneratedPage(richText: String): String {
         val richTextWithoutLinks: String =
             Jsoup.clean(richText, Whitelist().addTags(*whiteListOfTags.toTypedArray()).removeTags("a"))
-        val jsoupDocument: Document = Jsoup.parse(richTextWithoutLinks)
+        val jsoupDocument: Document = Jsoup.parse(richText)
         val paragraphs: Elements = jsoupDocument.select("p")
 
         // var to pass to wordservice
@@ -68,11 +68,11 @@ class MainService(
                 sentence += htmlAnchor
                 listOfWordsFormParagraphs.add(word)
             }
-            paragraph.text(sentence)
+            paragraph.text(sentence + "")
         }
 
         wordService.listOfWords = listOfWordsFormParagraphs
-        normaliseImageSizes(jsoupDocument)
+//        normaliseImageSizes(jsoupDocument)
 
         var stringHtml = getStringHtmlWithReplacedHtmlEntitiesWithCharacters(jsoupDocument)
         stringHtml = stringHtml.trimIndentations()

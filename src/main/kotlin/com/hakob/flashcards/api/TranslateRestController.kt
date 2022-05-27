@@ -13,20 +13,13 @@ import org.springframework.web.bind.annotation.RestController
 class TranslateRestController(
     val mainService: MainService,
 ) {
-    private val objectMapper: ObjectMapper = ObjectMapper()
     @PostMapping(consumes = arrayOf("application/json"), produces = arrayOf("application/json"))
-    fun toTranslate(@RequestBody translationRequest: TranslationRequest): String? {
+    fun toTranslate(@RequestBody translationRequest: TranslationRequest): String {
         val result = mainService.processTranslateRequest(translationRequest.indexOfWordToTranslate, translationRequest.wordToTranslate)
         return TranslationSuccessMessage(
             word = result.first,
             translatedWord = result.second,
             sentence = result.third
         ).toString()
-//        return translationRequest
-    }
-
-    @PostMapping
-    fun runProcess(@RequestBody wordId: Int) {
-
     }
 }

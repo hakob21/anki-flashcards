@@ -14,7 +14,8 @@ class UrlService(
         webClient.options.isCssEnabled = true
 
         webClient.options.isJavaScriptEnabled = true
-        return webClient.getPage<HtmlPage>(url).webResponse.contentAsString
+        val ll = webClient.getPage<HtmlPage>(url)
+        ll.asXml()
+        return ll.webResponse.contentAsString
     }
-
 }
